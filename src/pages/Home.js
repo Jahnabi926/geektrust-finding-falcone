@@ -88,6 +88,7 @@ export default function Home() {
     return 0;
   };
 
+  // TODO: modularize the function
   const handlePlanetSelection = (index, value) => {
     const updatedDropdowns = [...planetDropdowns];
     updatedDropdowns[index].selected = value;
@@ -176,7 +177,7 @@ export default function Home() {
     setPlanetNames(updatedPlanetNames);
     console.log("PlanetNames", updatedPlanetNames);
   };
-
+  // TODO: modularize the function
   const handleVehicleSelection = (index, value) => {
     console.log("handleVehicleSelection called");
     console.log("Selected vehicle value:", value);
@@ -240,7 +241,6 @@ export default function Home() {
     console.log("Inside useEffect");
 
     // Fetch planet options
-
     fetch("https://findfalcone.geektrust.com/planets")
       .then((response) => response.json())
       .then((data) => {
@@ -272,7 +272,9 @@ export default function Home() {
       .catch((error) => console.log(error));
   }, []);
 
+
   const handleFindFalcone = () => {
+     // TODO: the fetch functions should not be nested.
     let foundPlanet;
     // Fetch token
     let token;
@@ -415,3 +417,5 @@ export default function Home() {
     </div>
   );
 }
+
+// TODO: create a component for all the dropdowns, buttons
