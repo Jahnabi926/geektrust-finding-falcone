@@ -7,3 +7,17 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+.container {
+  display: flex;
+  gap: 20px;
+}
+.dropdown-list {
+  list-style-type: none;
+}
+.button-container {
+  margin: 50px;
+}
