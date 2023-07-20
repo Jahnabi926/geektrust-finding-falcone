@@ -1,5 +1,6 @@
 import React from "react";
 import { useLocation, Link } from "react-router-dom";
+import Button from "../components/Button";
 
 const Result = () => {
   const location = useLocation();
@@ -25,7 +26,7 @@ const Result = () => {
       <p>Time Taken: {totalTimeTaken}</p>
       <p>Planet found: {foundPlanet}</p>
       <Link to="/">
-        <button>Start Again</button>
+        <Button>Start Again</Button>
       </Link>
     </div>
   );

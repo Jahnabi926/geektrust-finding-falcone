@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Button from "../components/Button";
+import Dropdown from "../components/Dropdown";
+import VehicleChecklist from "../components/VehicleChecklist";
 
 export default function Home() {
   const [planetOptions, setPlanetOptions] = useState([]);
@@ -10,29 +13,29 @@ export default function Home() {
       selected: null,
       id: "d1",
       timeTaken: 0,
-      filteredOptions: []
+      filteredOptions: [],
     },
     {
       isOpen: false,
       selected: null,
       id: "d2",
       timeTaken: 0,
-      filteredOptions: []
+      filteredOptions: [],
     },
     {
       isOpen: false,
       selected: null,
       id: "d3",
       timeTaken: 0,
-      filteredOptions: []
+      filteredOptions: [],
     },
     {
       isOpen: false,
       selected: null,
       id: "d4",
       timeTaken: 0,
-      filteredOptions: []
-    }
+      filteredOptions: [],
+    },
   ]);
   const [vehicleDropdowns, setVehicleDropdowns] = useState([
     {
@@ -41,7 +44,7 @@ export default function Home() {
       id: "v1",
       associatedPlanetDropdown: "d1",
       selectedPlanet: null,
-      filteredVehicleOptions: []
+      filteredVehicleOptions: [],
     },
     {
       isOpen: false,
@@ -49,7 +52,7 @@ export default function Home() {
       id: "v2",
       associatedPlanetDropdown: "d2",
       selectedPlanet: null,
-      filteredVehicleOptions: []
+      filteredVehicleOptions: [],
     },
     {
       isOpen: false,
@@ -57,7 +60,7 @@ export default function Home() {
       id: "v3",
       associatedPlanetDropdown: "d3",
       selectedPlanet: null,
-      filteredVehicleOptions: []
+      filteredVehicleOptions: [],
     },
     {
       isOpen: false,
@@ -65,8 +68,8 @@ export default function Home() {
       id: "v4",
       associatedPlanetDropdown: "d4",
       selectedPlanet: null,
-      filteredVehicleOptions: []
-    }
+      filteredVehicleOptions: [],
+    },
   ]);
   const [tokenErrorMessage, setTokenErrorMessage] = useState(null);
   const [planetNames, setPlanetNames] = useState([]);
@@ -74,11 +77,94 @@ export default function Home() {
   const [totalTimeTaken, setTotalTimeTaken] = useState(0);
 
   const navigate = useNavigate();
-
   const handlePlanetToggle = (index) => {
     const updatedDropdowns = [...planetDropdowns];
     updatedDropdowns[index].isOpen = !updatedDropdowns[index].isOpen;
     setPlanetDropdowns(updatedDropdowns);
+  };
+  const filterPlanetOptions = (selectedPlanet, allOptions) => {
+    if (!selectedPlanet) {
+      return allOptions;
+    }
+    return allOptions.filter((planet) => planet.name !== selectedPlanet.name);
+  };
+  const updateFilteredDropdowns = (
+    index,
+    selectedPlanet,
+    planetDropdowns,
+    planetOptions
+  ) => {
+    return planetDropdowns.map((dropdown, dropdownIndex) => {
+      if (dropdownIndex !== index) {
+        const filteredOptions = dropdown.selected
+          ? filterPlanetOptions(selectedPlanet, planetOptions)
+          : planetOptions;
+        return {
+          ...dropdown,
+          filteredOptions: filteredOptions,
+        };
+      }
+      return dropdown;
+    });
+  };
+  const updateAssociatedVehicleDropdown = (
+    index,
+    selectedPlanet,
+    vehicleDropdowns,
+    vehicleOptions
+  ) => {
+    return vehicleDropdowns.map((dropdown) => {
+      if (dropdown.associatedPlanetDropdown === `d${index + 1}`) {
+        const filteredVehicleOptions = vehicleOptions.filter((option) => {
+          const isOptionValid =
+            option.total > 0 &&
+            (!selectedPlanet || option.maxDistance >= selectedPlanet.distance);
+          return isOptionValid;
+        });
+
+        return {
+          ...dropdown,
+          filteredVehicleOptions: filteredVehicleOptions,
+          isOpen: true,
+        };
+      }
+      return dropdown;
+    });
+  };
+  const handlePlanetSelection = (index, value) => {
+    setPlanetDropdowns((prevPlanetDropdowns) => {
+      const updatedDropdowns = [...prevPlanetDropdowns];
+      updatedDropdowns[index].selected = value;
+      updatedDropdowns[index].isOpen = false;
+
+      // Get the selected planet from the updatedDropdowns
+      const selectedPlanet = updatedDropdowns[index].filteredOptions.find(
+        (planet) => planet.name === value
+      );
+
+      const filteredDropdowns = updateFilteredDropdowns(
+        index,
+        selectedPlanet,
+        updatedDropdowns,
+        planetOptions
+      );
+
+      const updatedVehicleDropdowns = updateAssociatedVehicleDropdown(
+        index,
+        selectedPlanet,
+        vehicleDropdowns,
+        vehicleOptions
+      );
+
+      setVehicleDropdowns(updatedVehicleDropdowns);
+
+      const updatedPlanetNames = updatedDropdowns.map(
+        (dropdown) => dropdown.selected?.name
+      );
+      setPlanetNames(updatedPlanetNames);
+
+      return filteredDropdowns;
+    });
   };
 
   const calculateTimeTaken = (planet, vehicle) => {
@@ -88,158 +174,105 @@ export default function Home() {
     return 0;
   };
 
-  // TODO: modularize the function
-  const handlePlanetSelection = (index, value) => {
-    const updatedDropdowns = [...planetDropdowns];
-    updatedDropdowns[index].selected = value;
-    updatedDropdowns[index].isOpen = false;
-
-    const updatedPlanetOptions = planetOptions.filter(
-      (planet) => planet.name !== value
-    );
-
-    // Update the rest of the dropdowns with filtered options
-    const filteredDropdowns = updatedDropdowns.map(
-      (dropdown, dropdownIndex) => {
-        if (dropdownIndex !== index) {
-          const filteredOptions = dropdown.selected
-            ? updatedPlanetOptions.filter(
-                (planet) => planet.name !== dropdown.selected.name
-              )
-            : updatedPlanetOptions;
-          return {
-            ...dropdown,
-            filteredOptions: filteredOptions
-          };
-        }
-        return dropdown;
-      }
-    );
-
-    setPlanetOptions(updatedPlanetOptions);
-    setPlanetDropdowns(filteredDropdowns);
-    // Calculate distance of the selected planet
-    const selectedPlanet = planetOptions.find((planet) => planet === value);
-    console.log("planetOptions", planetOptions);
-    console.log("selectedPlanet object", selectedPlanet);
-    const associatedVehicleDropdown = vehicleDropdowns.find(
-      (dropdown) => dropdown.associatedPlanetDropdown === `d${index + 1}`
-    );
-    if (associatedVehicleDropdown) {
-      console.log("vehicleDropdown", associatedVehicleDropdown);
-      associatedVehicleDropdown.selectedPlanet = selectedPlanet;
-      console.log("1", associatedVehicleDropdown.selectedPlanet);
-      // Filter vehicle options based on selected planet's distance
-      const filteredVehicleOptions = vehicleOptions.filter((option) => {
-        const isOptionValid =
-          option.total > 0 && option.maxDistance >= selectedPlanet.distance;
-        console.log("2", option.total);
-        console.log("3", option.maxDistance);
-        console.log("4", selectedPlanet.distance);
-        console.log("5", isOptionValid);
-        if (isOptionValid) {
-          console.log("Selected Planet object:", selectedPlanet);
-          console.log("Max Distance:", option.maxDistance);
-          console.log(
-            "Distance:",
-            associatedVehicleDropdown.selectedPlanet.distance
-          );
-        }
-
-        return isOptionValid;
-      });
-
-      console.log("Filtered Vehicle Options:", filteredVehicleOptions); // Add this line to log the filtered options
-      const updatedVehicleDropdowns = [...vehicleDropdowns];
-
-      // Find the index of the associated dropdown
-
-      const associatedDropdownIndex = updatedVehicleDropdowns.findIndex(
-        (dropdown) => dropdown.id === associatedVehicleDropdown.id
-      );
-
-      // Update the associated dropdown with the new filtered options
-
-      if (associatedDropdownIndex !== -1) {
-        updatedVehicleDropdowns[associatedDropdownIndex] = {
-          ...updatedVehicleDropdowns[associatedDropdownIndex],
-          filteredVehicleOptions: filteredVehicleOptions // Added this line to assign the filtered options
-        };
-        updatedVehicleDropdowns[associatedDropdownIndex].isOpen = true; // Set isOpen to true
-      }
-
-      setVehicleDropdowns(updatedVehicleDropdowns);
-    }
-
-    const updatedPlanetNames = updatedDropdowns.map(
-      (dropdown) => dropdown.selected?.name
-    );
-    setPlanetNames(updatedPlanetNames);
-    console.log("PlanetNames", updatedPlanetNames);
-  };
-  // TODO: modularize the function
-  const handleVehicleSelection = (index, value) => {
-    console.log("handleVehicleSelection called");
-    console.log("Selected vehicle value:", value);
-    console.log("Vehicle options:", vehicleOptions);
-
+  const updateVehicleDropdowns = (
+    index,
+    value,
+    vehicleDropdowns,
+    vehicleOptions
+  ) => {
     const updatedDropdowns = [...vehicleDropdowns];
     const selectedVehicle = vehicleOptions.find(
       (option) => option.name === value
     );
-    console.log("Selected vehicle object:", selectedVehicle);
 
     updatedDropdowns[index].selected = selectedVehicle.name;
-    console.log("The selected vehicle is", updatedDropdowns[index].selected);
-    setVehicleDropdowns(updatedDropdowns);
 
-    //Reduce the total number of the selected vehicle
+    // Reduce the total number of the selected vehicle
     const updatedVehicleOptions = vehicleOptions.map((option) => {
       if (option.name === value) {
         return {
           ...option,
-          total: option.total - 1
+          total: option.total - 1,
         };
       }
       return option;
     });
-    setVehicleOptions(updatedVehicleOptions);
 
-    // Retrieve the selected planet object from the associated planet dropdown
-    const associatedPlanetDropdown = planetDropdowns.find(
+    return { updatedDropdowns, updatedVehicleOptions };
+  };
+
+  const updatePlanetDropdowns = (
+    index,
+    selectedPlanet,
+    planetDropdowns,
+    vehicleDropdowns,
+    timeTaken
+  ) => {
+    const updatedPlanetDropdowns = [...planetDropdowns];
+    const selectedPlanetDropdown = planetDropdowns.find(
       (dropdown) =>
         dropdown.id === vehicleDropdowns[index].associatedPlanetDropdown
     );
-    const selectedPlanet = associatedPlanetDropdown.selected;
 
-    // Calculate time taken for the selected planet and vehicle combination
-    const timeTaken = calculateTimeTaken(selectedPlanet, selectedVehicle);
-
-    // Update the timeTaken property in the corresponding planet dropdown
-    const updatedPlanetDropdowns = [...planetDropdowns];
     const associatedPlanetIndex = planetDropdowns.findIndex(
-      (dropdown) => dropdown.id === associatedPlanetDropdown.id
+      (dropdown) => dropdown.id === selectedPlanetDropdown.id
     );
-    updatedPlanetDropdowns[associatedPlanetIndex].timeTaken = timeTaken;
-    setPlanetDropdowns(updatedPlanetDropdowns);
 
-    // Update the total time taken
+    updatedPlanetDropdowns[associatedPlanetIndex].timeTaken = timeTaken;
+
+    return updatedPlanetDropdowns;
+  };
+
+  const calculateTotalTimeTaken = (planetDropdowns) => {
     const totalTime = planetDropdowns.reduce(
       (total, dropdown) => total + dropdown.timeTaken,
       0
     );
-    setTotalTimeTaken(totalTime);
 
-    const updatedvehicleNames = updatedDropdowns.map(
+    return totalTime;
+  };
+
+  const handleVehicleSelection = (index, value) => {
+    const { updatedDropdowns, updatedVehicleOptions } = updateVehicleDropdowns(
+      index,
+      value,
+      vehicleDropdowns,
+      vehicleOptions
+    );
+
+    setVehicleDropdowns(updatedDropdowns);
+    setVehicleOptions(updatedVehicleOptions);
+
+    const selectedVehicle = updatedDropdowns[index].selected;
+    const selectedPlanetDropdown = planetDropdowns.find(
+      (dropdown) =>
+        dropdown.id === vehicleDropdowns[index].associatedPlanetDropdown
+    );
+    const selectedPlanet = selectedPlanetDropdown.selected;
+
+    // Calculate time taken for the selected planet and vehicle combination
+    const timeTaken = calculateTimeTaken(selectedPlanet, selectedVehicle);
+    // Update the timeTaken property in the corresponding planet dropdown
+    const updatedPlanetDropdowns = updatePlanetDropdowns(
+      index,
+      selectedPlanet,
+      planetDropdowns,
+      timeTaken
+    );
+
+    setPlanetDropdowns(updatedPlanetDropdowns);
+
+    // Calculate the total time taken directly using updatedPlanetDropdowns
+    const totalTimeTaken = calculateTotalTimeTaken(updatedPlanetDropdowns);
+    setTotalTimeTaken(totalTimeTaken);
+
+    const updatedVehicleNames = updatedDropdowns.map(
       (dropdown) => dropdown.selected
     );
-    setVehicleNames(updatedvehicleNames);
-    console.log("VehicleNames", updatedvehicleNames);
+    setVehicleNames(updatedVehicleNames);
   };
 
   useEffect(() => {
-    console.log("Inside useEffect");
-
     // Fetch planet options
     fetch("https://findfalcone.geektrust.com/planets")
       .then((response) => response.json())
@@ -247,7 +280,7 @@ export default function Home() {
         const planetsData = data.map((planet) => {
           return {
             name: planet.name,
-            distance: planet.distance
+            distance: planet.distance,
           };
         });
         setPlanetOptions(planetsData);
@@ -264,7 +297,7 @@ export default function Home() {
             name: vehicle.name,
             total: vehicle.total_no,
             maxDistance: vehicle.max_distance,
-            speed: vehicle.speed
+            speed: vehicle.speed,
           };
         });
         setVehicleOptions(vehiclesData);
@@ -272,131 +305,78 @@ export default function Home() {
       .catch((error) => console.log(error));
   }, []);
 
-
   const handleFindFalcone = () => {
-     // TODO: the fetch functions should not be nested.
     let foundPlanet;
-    // Fetch token
     let token;
+    let requestData;
+
     fetch("https://findfalcone.geektrust.com/token", {
       method: "POST",
       headers: {
-        Accept: "application/json"
-      }
+        Accept: "application/json",
+      },
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Token response:", data);
         token = data.token;
-        const requestData = {
+        requestData = {
           token,
           planet_names: planetNames,
-          vehicle_names: vehicleNames
+          vehicle_names: vehicleNames,
         };
-        //fetch result
-        fetch("https://findfalcone.geektrust.com/find", {
+        return fetch("https://findfalcone.geektrust.com/find", {
           method: "POST",
           headers: {
             Accept: "application/json",
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
-          body: JSON.stringify(requestData)
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            foundPlanet = data.planet_name;
-
-            const result =
-              data.status === "success"
-                ? data.planet_name
-                : "AI Falcone not found";
-            console.log("data from api", result);
-            // Redirect to the Result component with the result in the URL
-            navigate("/result", {
-              state: {
-                totalTimeTaken,
-                foundPlanet,
-                result
-              }
-            });
-          })
-          .catch((error) => console.log(error));
+          body: JSON.stringify(requestData),
+        });
       })
+      .then((response) => response.json())
+      .then((data) => {
+        foundPlanet = data.planet_name;
+
+        const result =
+          data.status === "success" ? data.planet_name : "AI Falcone not found";
+        // Redirect to the Result component with the result in the URL
+        navigate("/result", {
+          state: {
+            totalTimeTaken,
+            foundPlanet,
+            result,
+          },
+        });
+      })
+
       .catch((error) => {
         const errorMessage =
           "Token not initialized. Please get a new token with /token API.";
         setTokenErrorMessage(errorMessage);
-        console.log(error);
       });
   };
   return (
     <div className="App">
       <h1>Finding Falcone !</h1>
       <h4>Select planets you want to search in: </h4>
-      {/* Display the total time taken for the complete search */}
 
       {totalTimeTaken !== null && <p>Time Taken: {totalTimeTaken}</p>}
 
-      <div className="container">
-        {planetDropdowns.map((dropdown, index) => (
-          <div key={`dropdown-${index}`}>
-            <p>Destination {`${index + 1}`}</p>
-            <button onClick={() => handlePlanetToggle(index)}>
-              {dropdown.selected ? dropdown.selected.name : "Select an option"}
-            </button>
-            {dropdown.isOpen && (
-              <ul className="dropdown-list">
-                {planetOptions
-                  .filter((option) =>
-                    planetDropdowns.every(
-                      (d, i) => i === index || d.selected !== option.name
-                    )
-                  )
-                  .map((option) => (
-                    <li
-                      key={option.name}
-                      onClick={() => handlePlanetSelection(index, option)}
-                    >
-                      {option.name}
-                    </li>
-                  ))}
-              </ul>
-            )}
-            {/* {dropdown.selected && <p>Time Taken: {dropdown.timeTaken}</p>} */}
-          </div>
-        ))}
-      </div>
-      {/* <h1>Select a vehicle</h1> */}
-      <div className="container">
-        {vehicleDropdowns.map((dropdown, index) => (
-          <div key={`dropdown-${index}`}>
-            {dropdown.isOpen && (
-              <ul className="dropdown-list">
-                {dropdown.filteredVehicleOptions.map((option) => (
-                  <li key={option.name}>
-                    <label>
-                      <input
-                        type="radio"
-                        name={`vehicle-${index}`}
-                        value={option.name}
-                        checked={option.name === dropdown.selected}
-                        onChange={() =>
-                          handleVehicleSelection(index, option.name)
-                        }
-                        disabled={option.total === 0}
-                      />
-                      <span>{option.name}</span>
-                      <span>({option.total})</span>
-                    </label>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        ))}
-      </div>
+      <Dropdown
+        planetDropdowns={planetDropdowns}
+        handlePlanetToggle={handlePlanetToggle}
+        planetOptions={planetOptions}
+        handlePlanetSelection={handlePlanetSelection}
+        filterPlanetOptions={filterPlanetOptions}
+        updateFilteredDropdowns={updateFilteredDropdowns}
+        updateAssociatedVehicleDropdown={updateAssociatedVehicleDropdown}
+      />
+      <VehicleChecklist
+        vehicleDropdowns={vehicleDropdowns}
+        handleVehicleSelection={handleVehicleSelection}
+      />
       <div className="button-container">
-        <button
+        <Button
           onClick={handleFindFalcone}
           disabled={
             planetNames.length < 4 ||
@@ -406,9 +386,8 @@ export default function Home() {
           }
         >
           Find Falcone!
-        </button>
+        </Button>
       </div>
-      {/* Display the token error message */}
       {tokenErrorMessage && (
         <div className="error-container">
           <p>{tokenErrorMessage}</p>
