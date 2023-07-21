@@ -147,9 +147,9 @@ export default function Home() {
       if (associatedDropdownIndex !== -1) {
         updatedVehicleDropdowns[associatedDropdownIndex] = {
           ...updatedVehicleDropdowns[associatedDropdownIndex],
-          filteredVehicleOptions: filteredVehicleOptions, // Added this line to assign the filtered options
+          filteredVehicleOptions: filteredVehicleOptions, 
         };
-        updatedVehicleDropdowns[associatedDropdownIndex].isOpen = true; // Set isOpen to true
+        updatedVehicleDropdowns[associatedDropdownIndex].isOpen = true; 
       }
 
       setVehicleDropdowns(updatedVehicleDropdowns);
@@ -159,7 +159,6 @@ export default function Home() {
       (dropdown) => dropdown.selected?.name
     );
     setPlanetNames(updatedPlanetNames);
-    console.log("PlanetNames", updatedPlanetNames);
   };
 
   const handleVehicleSelection = (index, value) => {
