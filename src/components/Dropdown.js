@@ -31,7 +31,10 @@ export default function Dropdown(props) {
 
   const renderPlanetDropdown = (dropdown, index) => {
     return (
-      <div key={`planet-dropdown-${index}`} className="planet-dropdown-container">
+      <div
+        key={`planet-dropdown-${index}`}
+        className="planet-dropdown-container"
+      >
         <p>Destination {`${index + 1}`}</p>
         <Button onClick={() => handlePlanetToggle(index)}>
           {dropdown.selected ? dropdown.selected.name : "Select an option"}

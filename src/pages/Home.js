@@ -5,8 +5,8 @@ import Dropdown from "../components/Dropdown";
 import VehicleChecklist from "../components/VehicleChecklist";
 
 export default function Home() {
+  // const {vehicleDropdowns, setVehicleDropdowns, vehicleOptions, setVehicleOptions } = props
   const [planetOptions, setPlanetOptions] = useState([]);
-  const [vehicleOptions, setVehicleOptions] = useState([]);
   const [planetDropdowns, setPlanetDropdowns] = useState([
     {
       isOpen: false,
@@ -71,23 +71,18 @@ export default function Home() {
       filteredVehicleOptions: [],
     },
   ]);
-  const [tokenErrorMessage, setTokenErrorMessage] = useState(null);
-  const [planetNames, setPlanetNames] = useState([]);
+  const [vehicleOptions, setVehicleOptions] = useState([]);
   const [vehicleNames, setVehicleNames] = useState([]);
   const [totalTimeTaken, setTotalTimeTaken] = useState(0);
+
+  const [tokenErrorMessage, setTokenErrorMessage] = useState(null);
+  const [planetNames, setPlanetNames] = useState([]);
 
   const navigate = useNavigate();
   const handlePlanetToggle = (index) => {
     const updatedDropdowns = [...planetDropdowns];
     updatedDropdowns[index].isOpen = !updatedDropdowns[index].isOpen;
     setPlanetDropdowns(updatedDropdowns);
-  };
-
-  const calculateTimeTaken = (planet, vehicle) => {
-    if (planet && vehicle) {
-      return planet.distance / parseFloat(vehicle.speed);
-    }
-    return 0;
   };
 
   const handlePlanetSelection = (index, value) => {
@@ -147,9 +142,9 @@ export default function Home() {
       if (associatedDropdownIndex !== -1) {
         updatedVehicleDropdowns[associatedDropdownIndex] = {
           ...updatedVehicleDropdowns[associatedDropdownIndex],
-          filteredVehicleOptions: filteredVehicleOptions, 
+          filteredVehicleOptions: filteredVehicleOptions,
         };
-        updatedVehicleDropdowns[associatedDropdownIndex].isOpen = true; 
+        updatedVehicleDropdowns[associatedDropdownIndex].isOpen = true;
       }
 
       setVehicleDropdowns(updatedVehicleDropdowns);
@@ -211,6 +206,12 @@ export default function Home() {
       (dropdown) => dropdown.selected
     );
     setVehicleNames(updatedvehicleNames);
+  };
+  const calculateTimeTaken = (planet, vehicle) => {
+    if (planet && vehicle) {
+      return planet.distance / parseFloat(vehicle.speed);
+    }
+    return 0;
   };
 
   useEffect(() => {
@@ -313,6 +314,7 @@ export default function Home() {
         vehicleDropdowns={vehicleDropdowns}
         handleVehicleSelection={handleVehicleSelection}
       />
+
       <div className="button-container">
         <Button
           onClick={handleFindFalcone}
