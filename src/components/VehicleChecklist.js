@@ -1,9 +1,8 @@
 export default function VehicleChecklist(props) {
   const { vehicleDropdowns, handleVehicleSelection } = props;
+  console.log("vehicleDropdowns:", vehicleDropdowns);
 
-  const renderVehicleOptions = (index, dropdown) => {
-    console.log(" renderVehicleOptions rendered");
-
+  const renderVehicleOptions = (dropdown, index) => {
     return (
       <ul className="vehicles-dropdown-list">
         {dropdown.filteredVehicleOptions.map((option, optionIndex) => (
@@ -27,19 +26,14 @@ export default function VehicleChecklist(props) {
   };
 
   const renderVehicleDropdown = (dropdown, index) => {
-    console.log(" renderVehicleDropdown rendered");
     return (
       <div
         key={`vehicle-dropdown-${index}`}
         className="vehicle-dropdown-container"
       >
-        {dropdown.isOpen && renderVehicleOptions(index, dropdown)}
+        {dropdown.isOpen && renderVehicleOptions(dropdown, index)}
       </div>
     );
   };
-  return (
-    <div className="container">
-      {vehicleDropdowns.map(renderVehicleDropdown)}
-    </div>
-  );
+  return <>{vehicleDropdowns.map(renderVehicleDropdown)}</>;
 }

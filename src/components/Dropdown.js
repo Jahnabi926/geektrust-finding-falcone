@@ -1,11 +1,14 @@
 import Button from "./Button";
+import VehicleChecklist from "./VehicleChecklist";
 
 export default function Dropdown(props) {
   const {
-    planetDropdowns,
-    handlePlanetToggle,
     planetOptions,
+    planetDropdowns,
+    vehicleDropdowns,
+    handlePlanetToggle,
     handlePlanetSelection,
+    handleVehicleSelection,
   } = props;
 
   const renderDropdownOptions = (index) => {
@@ -44,6 +47,18 @@ export default function Dropdown(props) {
     );
   };
   return (
-    <div className="container">{planetDropdowns.map(renderPlanetDropdown)}</div>
+    <div className="container">
+      {planetDropdowns.map((dropdown, index) => (
+        <div key={`dropdown-container-${index}`}>
+          {renderPlanetDropdown(dropdown, index)}
+          {dropdown.isOpen && (
+            <VehicleChecklist
+              vehicleDropdowns={vehicleDropdowns}
+              handleVehicleSelection={handleVehicleSelection}
+            />
+          )}
+        </div>
+      ))}
+    </div>
   );
 }

@@ -15,7 +15,6 @@ body {
   display: flex;
   gap: 20px;
   justify-content: center;
-  position: relative;
 }
 .planets-dropdown-list {
   list-style-type: none;
@@ -28,13 +27,8 @@ body {
   padding: 0;
   cursor: pointer;
   text-align: left;
-  position: absolute;
-  left: 439px;
 }
 
 .button-container {
   margin: 50px;
-}
-.vehicle-dropdown-container {
-  position: absolute;
 }
