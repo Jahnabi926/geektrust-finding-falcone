@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
-import Dropdown from "../components/Dropdown";
 import Selector from "../components/Selector";
 
 export default function Home() {
-  // const {vehicleDropdowns, setVehicleDropdowns, vehicleOptions, setVehicleOptions } = props
+  const [loading, setLoading] = useState(true);
   const [planetOptions, setPlanetOptions] = useState([]);
   const [planetDropdowns, setPlanetDropdowns] = useState([
     {
@@ -216,7 +215,7 @@ export default function Home() {
 
   useEffect(() => {
     // Fetch planet options
-    fetch("https://findfalcone.geektrust.com/planets")
+    const fetchPlanets = fetch("https://findfalcone.geektrust.com/planets")
       .then((response) => response.json())
       .then((data) => {
         const planetsData = data.map((planet) => {
@@ -231,7 +230,7 @@ export default function Home() {
 
     // Fetch vehicle options
 
-    fetch("https://findfalcone.geektrust.com/vehicles")
+    const fetchVehicles = fetch("https://findfalcone.geektrust.com/vehicles")
       .then((response) => response.json())
       .then((data) => {
         const vehiclesData = data.map((vehicle) => {
@@ -245,6 +244,19 @@ export default function Home() {
         setVehicleOptions(vehiclesData);
       })
       .catch((error) => console.log(error));
+
+    Promise.all([fetchPlanets, fetchVehicles])
+      .then(() => {
+        // Both API calls are completed, so set loading to false
+
+        setLoading(false);
+      })
+      .catch((error) => {
+        // Handle errors from either of the API calls
+
+        console.log("Error fetching data:", error);
+        setLoading(false); // In case of an error, still set loading to false
+      });
   }, []);
 
   const handleFindFalcone = () => {
@@ -303,23 +315,18 @@ export default function Home() {
       <h4>Select planets you want to search in: </h4>
 
       {totalTimeTaken !== null && <p>Time Taken: {totalTimeTaken}</p>}
-
-      <Dropdown
-        vehicleDropdowns={vehicleDropdowns}
-        planetDropdowns={planetDropdowns}
-        handlePlanetToggle={handlePlanetToggle}
-        planetOptions={planetOptions}
-        handlePlanetSelection={handlePlanetSelection}
-        handleVehicleSelection={handleVehicleSelection}
-      />
-      <Selector
-        vehicleDropdowns={vehicleDropdowns}
-        planetDropdowns={planetDropdowns}
-        handlePlanetToggle={handlePlanetToggle}
-        planetOptions={planetOptions}
-        handlePlanetSelection={handlePlanetSelection}
-        handleVehicleSelection={handleVehicleSelection}
-      />
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <Selector
+          vehicleDropdowns={vehicleDropdowns}
+          planetDropdowns={planetDropdowns}
+          handlePlanetToggle={handlePlanetToggle}
+          planetOptions={planetOptions}
+          handlePlanetSelection={handlePlanetSelection}
+          handleVehicleSelection={handleVehicleSelection}
+        />
+      )}
       <div className="button-container">
         <Button
           onClick={handleFindFalcone}
