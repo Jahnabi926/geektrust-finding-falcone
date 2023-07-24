@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import Dropdown from "../components/Dropdown";
+import Selector from "../components/Selector";
 
 export default function Home() {
   // const {vehicleDropdowns, setVehicleDropdowns, vehicleOptions, setVehicleOptions } = props
@@ -304,6 +305,14 @@ export default function Home() {
       {totalTimeTaken !== null && <p>Time Taken: {totalTimeTaken}</p>}
 
       <Dropdown
+        vehicleDropdowns={vehicleDropdowns}
+        planetDropdowns={planetDropdowns}
+        handlePlanetToggle={handlePlanetToggle}
+        planetOptions={planetOptions}
+        handlePlanetSelection={handlePlanetSelection}
+        handleVehicleSelection={handleVehicleSelection}
+      />
+      <Selector
         vehicleDropdowns={vehicleDropdowns}
         planetDropdowns={planetDropdowns}
         handlePlanetToggle={handlePlanetToggle}
