@@ -50,7 +50,9 @@ export default function Selector(props) {
                           type="radio"
                           name={`vehicle-${index}`}
                           value={option.name}
-                          checked={option.name === vehicleDropdowns[index].selected}
+                          checked={
+                            option.name === vehicleDropdowns[index].selected
+                          }
                           onChange={() =>
                             handleVehicleSelection(index, option.name)
                           }
