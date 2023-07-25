@@ -7,7 +7,7 @@ import {
   getAssociatedVehicleDropdown,
   updateAssociatedVehicleDropdown,
   reduceSelectedVehicleTotal,
-} from "../helpers/utilityFunctions";
+} from "../helpers/HomeUtilityFunctions";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
