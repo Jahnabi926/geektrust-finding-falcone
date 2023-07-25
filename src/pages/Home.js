@@ -8,6 +8,8 @@ import {
   updateAssociatedVehicleDropdown,
   reduceSelectedVehicleTotal,
 } from "../helpers/HomeUtilityFunctions";
+import Header from "../components/common/Header";
+import Footer from "../components/common/Footer";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -272,41 +274,45 @@ export default function Home() {
       });
   };
   return (
-    <div className="App">
-      <h1>Finding Falcone !</h1>
-      <h4>Select planets you want to search in: </h4>
+    <>
+      <Header />
+      <div className="App">
+        <h1>Finding Falcone !</h1>
+        <h4>Select planets you want to search in: </h4>
 
-      {totalTimeTaken !== null && <p>Time Taken: {totalTimeTaken}</p>}
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <Selector
-          vehicleDropdowns={vehicleDropdowns}
-          planetDropdowns={planetDropdowns}
-          handlePlanetToggle={handlePlanetToggle}
-          planetOptions={planetOptions}
-          handlePlanetSelection={handlePlanetSelection}
-          handleVehicleSelection={handleVehicleSelection}
-        />
-      )}
-      <div className="button-container">
-        <Button
-          onClick={handleFindFalcone}
-          disabled={
-            planetNames.length < 4 ||
-            vehicleNames.length < 4 ||
-            planetNames.includes(null) ||
-            vehicleNames.includes(null)
-          }
-        >
-          Find Falcone!
-        </Button>
-      </div>
-      {tokenErrorMessage && (
-        <div className="error-container">
-          <p>{tokenErrorMessage}</p>
+        {totalTimeTaken !== null && <p>Time Taken: {totalTimeTaken}</p>}
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
+          <Selector
+            vehicleDropdowns={vehicleDropdowns}
+            planetDropdowns={planetDropdowns}
+            handlePlanetToggle={handlePlanetToggle}
+            planetOptions={planetOptions}
+            handlePlanetSelection={handlePlanetSelection}
+            handleVehicleSelection={handleVehicleSelection}
+          />
+        )}
+        <div className="button-container">
+          <Button
+            onClick={handleFindFalcone}
+            disabled={
+              planetNames.length < 4 ||
+              vehicleNames.length < 4 ||
+              planetNames.includes(null) ||
+              vehicleNames.includes(null)
+            }
+          >
+            Find Falcone!
+          </Button>
         </div>
-      )}
-    </div>
+        {tokenErrorMessage && (
+          <div className="error-container">
+            <p>{tokenErrorMessage}</p>
+          </div>
+        )}
+      </div>
+      <Footer />
+    </>
   );
 }

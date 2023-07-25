@@ -32,3 +32,20 @@ body {
 .button-container {
   margin: 50px;
 }
+a {
+  text-decoration: none;
+}
+.header-links {
+  display: flex;
+  flex-direction: row-reverse;
+  cursor: pointer;
+}
+.header-space {
+  margin: 0 10px;
+}
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+}
