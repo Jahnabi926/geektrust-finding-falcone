@@ -12,7 +12,7 @@ const Result = () => {
     <>
       <Header />
       <div className="App">
-        <h1>Finding Falcone !</h1>
+        <div className="result">
         {findResult === null ? (
           <p>Loading...</p>
         ) : (
@@ -30,8 +30,10 @@ const Result = () => {
         <p>Time Taken: {totalTimeTaken}</p>
         <p>Planet found: {foundPlanet}</p>
         <Link to="/">
-          <Button>Start Again</Button>
+          <Button className="button">Start Again</Button>
         </Link>
+
+        </div>
       </div>
       <Footer />
     </>

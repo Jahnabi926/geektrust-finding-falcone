@@ -19,7 +19,7 @@ export const DestinationDropdown = ({
   return (
     <>
       <p>Destination {`${index + 1}`}</p>
-      <Button onClick={() => handlePlanetToggle(index)}>
+      <Button onClick={() => handlePlanetToggle(index)} className="dropdown-button">
         {dropdown.selected ? dropdown.selected.name : "Select an option"}
       </Button>
       {dropdown.isOpen && (
