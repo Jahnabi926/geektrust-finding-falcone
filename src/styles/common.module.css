@@ -1,0 +1,26 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+a {
+  text-decoration: none;
+}
+.header_links {
+  display: flex;
+  flex-direction: row-reverse;
+  cursor: pointer;
+  margin: 5px;
+}
+.header_space {
+  margin: 0 10px;
+}
+.title {
+  text-align: center;
+}
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+}

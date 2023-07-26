@@ -7,68 +7,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.App {
-  font-family: sans-serif;
-  text-align: center;
-}
-.container {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-}
-.home {
-  margin-top: 3rem;
-}
-.planets-dropdown-list {
-  list-style-type: none;
-  padding: 5px 0;
-  cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 4px 0 8px rgba(0, 0, 0, 0.2);
-}
-.vehicles-dropdown-list {
-  list-style-type: none;
-  padding: 0;
-  text-align: left;
-}
-.vehicles-dropdown-list input {
-  cursor: pointer;
-}
 .button-container {
   margin: 50px;
-}
-a {
-  text-decoration: none;
-}
-.header-links {
-  display: flex;
-  flex-direction: row-reverse;
-  cursor: pointer;
-  margin: 5px;
-}
-.header-space {
-  margin: 0 10px;
-}
-.footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  text-align: center;
-}
-.result {
-  margin-top: 6rem;
-}
-.title {
-  text-align: center;
 }
 .button {
   cursor: pointer;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 4px 0 8px rgba(0, 0, 0, 0.2);
-  border: none;
-  padding: 5px;
-}
-.dropdown-button {
-  cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border: none;
   padding: 5px;
 }

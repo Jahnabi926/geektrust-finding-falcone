@@ -2,6 +2,7 @@ import {
   DestinationDropdown,
   VehicleDropdown,
 } from "../helpers/SelectorUtilityFunctions";
+import styles from "../styles/selector.module.css";
 
 export default function Selector(props) {
   const {
@@ -15,7 +16,7 @@ export default function Selector(props) {
 
   return (
     <>
-      <div className="container">
+      <div className={styles.container}>
         {planetDropdowns.map((dropdown, index) => (
           <div
             key={`planet-dropdown-${index}`}

@@ -1,4 +1,5 @@
 import Button from "../components/Button";
+import styles from "../styles/selector.module.css";
 
 //Function to filter planet options
 const filterPlanetOptions = (planetOptions, planetDropdowns, index) => {
@@ -19,11 +20,14 @@ export const DestinationDropdown = ({
   return (
     <>
       <p>Destination {`${index + 1}`}</p>
-      <Button onClick={() => handlePlanetToggle(index)} className="dropdown-button">
+      <Button
+        onClick={() => handlePlanetToggle(index)}
+        className={styles.dropdown_button}
+      >
         {dropdown.selected ? dropdown.selected.name : "Select an option"}
       </Button>
       {dropdown.isOpen && (
-        <ul className="planets-dropdown-list">
+        <ul className={styles.planets_dropdown_list}>
           {filterPlanetOptions(planetOptions, planetDropdowns, index).map(
             (option) => (
               <li
@@ -49,7 +53,7 @@ export const VehicleDropdown = ({
   return (
     <>
       {dropdown.isOpen && (
-        <ul className="vehicles-dropdown-list">
+        <ul className={styles.vehicles_dropdown_list}>
           {dropdown.filteredVehicleOptions.map((option, optionIndex) => (
             <li key={`option-${index}-${optionIndex}`}>
               <label>
