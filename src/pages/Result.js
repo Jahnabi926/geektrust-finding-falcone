@@ -5,6 +5,7 @@ import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
 import styles from "../styles/selector.module.css";
 import classes from "../styles/button.module.css";
+import "../styles/spinner.css";
 
 const Result = () => {
   const location = useLocation();
@@ -16,7 +17,7 @@ const Result = () => {
       <div className={styles.App}>
         <div className={styles.result}>
           {findResult === null ? (
-            <p>Loading...</p>
+            <div className="spinner" />
           ) : (
             <>
               {findResult === "AI Falcone not found" ? (
