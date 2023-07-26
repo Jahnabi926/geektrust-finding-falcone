@@ -137,10 +137,14 @@ export default function Home() {
         });
         setPlanetOptions(planetsData);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log("Error fetching planets:", error);
+        setTokenErrorMessage(
+          "Failed to fetch planets. Please try again later."
+        );
+      });
 
     // Fetch vehicle options
-
     const fetchVehicles = fetch("https://findfalcone.geektrust.com/vehicles")
       .then((response) => response.json())
       .then((data) => {
@@ -154,7 +158,12 @@ export default function Home() {
         });
         setVehicleOptions(vehiclesData);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log("Error fetching vehicles:", error);
+        setTokenErrorMessage(
+          "Failed to fetch vehicles. Please try again later."
+        );
+      });
 
     Promise.all([fetchPlanets, fetchVehicles])
       .then(() => {
@@ -191,16 +200,26 @@ export default function Home() {
             <div className="spinner" />
           ) : (
             <>
-              {totalTimeTaken !== null && <p>Time Taken: {totalTimeTaken}</p>}
+              {tokenErrorMessage ? (
+                <div>
+                  <p>{tokenErrorMessage}</p>
+                </div>
+              ) : (
+                <>
+                  {totalTimeTaken !== null && (
+                    <p>Time Taken: {totalTimeTaken}</p>
+                  )}
 
-              <Selector
-                vehicleDropdowns={vehicleDropdowns}
-                planetDropdowns={planetDropdowns}
-                handlePlanetToggle={togglePlanet}
-                planetOptions={planetOptions}
-                handlePlanetSelection={planetSelection}
-                handleVehicleSelection={vehicleSelection}
-              />
+                  <Selector
+                    vehicleDropdowns={vehicleDropdowns}
+                    planetDropdowns={planetDropdowns}
+                    handlePlanetToggle={togglePlanet}
+                    planetOptions={planetOptions}
+                    handlePlanetSelection={planetSelection}
+                    handleVehicleSelection={vehicleSelection}
+                  />
+                </>
+              )}
             </>
           )}
           <div>
@@ -217,11 +236,6 @@ export default function Home() {
               Find Falcone!
             </Button>
           </div>
-          {tokenErrorMessage && (
-            <div>
-              <p>{tokenErrorMessage}</p>
-            </div>
-          )}
         </div>
       </div>
       <Footer />
