@@ -12,6 +12,7 @@ import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
 import styles from "../styles/selector.module.css";
 import classes from "../styles/button.module.css";
+import "../styles/spinner.css";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -186,18 +187,21 @@ export default function Home() {
         <div className={styles.home}>
           <h4>Select planets you want to search in: </h4>
 
-          {totalTimeTaken !== null && <p>Time Taken: {totalTimeTaken}</p>}
           {loading ? (
-            <p>Loading...</p>
+            <div className="spinner" />
           ) : (
-            <Selector
-              vehicleDropdowns={vehicleDropdowns}
-              planetDropdowns={planetDropdowns}
-              handlePlanetToggle={togglePlanet}
-              planetOptions={planetOptions}
-              handlePlanetSelection={planetSelection}
-              handleVehicleSelection={vehicleSelection}
-            />
+            <>
+              {totalTimeTaken !== null && <p>Time Taken: {totalTimeTaken}</p>}
+
+              <Selector
+                vehicleDropdowns={vehicleDropdowns}
+                planetDropdowns={planetDropdowns}
+                handlePlanetToggle={togglePlanet}
+                planetOptions={planetOptions}
+                handlePlanetSelection={planetSelection}
+                handleVehicleSelection={vehicleSelection}
+              />
+            </>
           )}
           <div>
             <Button
