@@ -1,3 +1,8 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
 .container {
   display: flex;
   gap: 20px;
@@ -19,12 +24,6 @@
 }
 .vehicles_dropdown_list input {
   cursor: pointer;
-}
-.dropdown_button {
-  cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  border: none;
-  padding: 5px;
 }
 .result {
   margin-top: 6rem;

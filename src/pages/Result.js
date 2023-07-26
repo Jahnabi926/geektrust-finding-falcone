@@ -3,8 +3,8 @@ import { useLocation, Link } from "react-router-dom";
 import Button from "../components/Button";
 import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
-import classes from "../styles/common.module.css";
 import styles from "../styles/selector.module.css";
+import classes from "../styles/button.module.css";
 
 const Result = () => {
   const location = useLocation();
@@ -13,7 +13,7 @@ const Result = () => {
   return (
     <>
       <Header />
-      <div className={classes.App}>
+      <div className={styles.App}>
         <div className={styles.result}>
           {findResult === null ? (
             <p>Loading...</p>
@@ -32,7 +32,7 @@ const Result = () => {
           <p>Time Taken: {totalTimeTaken}</p>
           <p>Planet found: {foundPlanet}</p>
           <Link to="/">
-            <Button className="button">Start Again</Button>
+            <Button className={classes.button}>Start Again</Button>
           </Link>
         </div>
       </div>

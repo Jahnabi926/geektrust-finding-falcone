@@ -7,12 +7,3 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.button-container {
-  margin: 50px;
-}
-.button {
-  cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 4px 0 8px rgba(0, 0, 0, 0.2);
-  border: none;
-  padding: 5px;
-}

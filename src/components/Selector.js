@@ -18,10 +18,7 @@ export default function Selector(props) {
     <>
       <div className={styles.container}>
         {planetDropdowns.map((dropdown, index) => (
-          <div
-            key={`planet-dropdown-${index}`}
-            className="planet-dropdown-container"
-          >
+          <div key={`planet-dropdown-${index}`}>
             <DestinationDropdown
               dropdown={dropdown}
               index={index}

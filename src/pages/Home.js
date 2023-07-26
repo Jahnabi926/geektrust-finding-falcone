@@ -10,8 +10,8 @@ import {
 } from "../helpers/HomeUtilityFunctions";
 import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
-import classes from "../styles/common.module.css";
 import styles from "../styles/selector.module.css";
+import classes from "../styles/button.module.css";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -278,7 +278,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <div className={classes.App}>
+      <div className={styles.App}>
         <div className={styles.home}>
           <h4>Select planets you want to search in: </h4>
 
@@ -295,10 +295,10 @@ export default function Home() {
               handleVehicleSelection={handleVehicleSelection}
             />
           )}
-          <div className="button-container">
+          <div>
             <Button
               onClick={handleFindFalcone}
-              className="button"
+              className={classes.button}
               disabled={
                 planetNames.length < 4 ||
                 vehicleNames.length < 4 ||
@@ -310,7 +310,7 @@ export default function Home() {
             </Button>
           </div>
           {tokenErrorMessage && (
-            <div className="error-container">
+            <div>
               <p>{tokenErrorMessage}</p>
             </div>
           )}

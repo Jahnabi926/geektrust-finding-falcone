@@ -1,5 +1,6 @@
 import Button from "../components/Button";
 import styles from "../styles/selector.module.css";
+import classes from "../styles/button.module.css";
 
 //Function to filter planet options
 const filterPlanetOptions = (planetOptions, planetDropdowns, index) => {
@@ -22,7 +23,7 @@ export const DestinationDropdown = ({
       <p>Destination {`${index + 1}`}</p>
       <Button
         onClick={() => handlePlanetToggle(index)}
-        className={styles.dropdown_button}
+        className={classes.dropdown_button}
       >
         {dropdown.selected ? dropdown.selected.name : "Select an option"}
       </Button>

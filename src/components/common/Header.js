@@ -1,4 +1,4 @@
-import styles from "../../styles/common.module.css";
+import styles from "../../styles/header.module.css";
 
 export default function Header() {
   const handleReset = () => {
@@ -6,7 +6,7 @@ export default function Header() {
   };
   return (
     <>
-      <header className="header">
+      <header>
         <div className={styles.header_links}>
           <a href="/">GeekTrust Home</a>
           <span className={styles.header_space}>|</span>
