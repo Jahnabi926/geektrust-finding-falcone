@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import Selector from "../components/Selector";
 import {
-  updatePlanetDropdowns,
-  getAssociatedVehicleDropdown,
-  updateAssociatedVehicleDropdown,
-  reduceSelectedVehicleTotal,
+  handlePlanetToggle,
+  handlePlanetSelection,
+  handleVehicleSelection,
+  handleFindFalcone,
 } from "../helpers/HomeUtilityFunctions";
 import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
@@ -88,95 +88,39 @@ export default function Home() {
   const [planetNames, setPlanetNames] = useState([]);
 
   const navigate = useNavigate();
-  const handlePlanetToggle = (index) => {
-    const updatedDropdowns = [...planetDropdowns];
-    updatedDropdowns[index].isOpen = !updatedDropdowns[index].isOpen;
-    setPlanetDropdowns(updatedDropdowns);
+
+  const togglePlanet = (index) => {
+    handlePlanetToggle(index, planetDropdowns, setPlanetDropdowns);
   };
 
-  const handlePlanetSelection = (index, value) => {
-    const updatedDropdowns = [...planetDropdowns];
-    const { filteredDropdowns, updatedPlanetOptions } = updatePlanetDropdowns(
-      updatedDropdowns,
+  const planetSelection = (index, value) => {
+    handlePlanetSelection(
       index,
       value,
-      planetOptions
-    );
-
-    setPlanetOptions(updatedPlanetOptions);
-    setPlanetDropdowns(filteredDropdowns);
-    // Calculate distance of the selected planet
-    const selectedPlanet = planetOptions.find((planet) => planet === value);
-    const associatedVehicleDropdown = getAssociatedVehicleDropdown(
-      index,
-      vehicleDropdowns
-    );
-
-    const updatedVehicleDropdowns = updateAssociatedVehicleDropdown(
-      selectedPlanet,
-      associatedVehicleDropdown,
+      planetDropdowns,
+      setPlanetDropdowns,
+      planetOptions,
+      setPlanetOptions,
       vehicleDropdowns,
-      vehicleOptions
-    );
-
-    setVehicleDropdowns(updatedVehicleDropdowns);
-
-    const updatedPlanetNames = updatedDropdowns.map(
-      (dropdown) => dropdown.selected?.name
-    );
-    setPlanetNames(updatedPlanetNames);
-  };
-
-  const handleVehicleSelection = (index, value) => {
-    const updatedDropdowns = [...vehicleDropdowns];
-    const selectedVehicle = vehicleOptions.find(
-      (option) => option.name === value
-    );
-
-    updatedDropdowns[index].selected = selectedVehicle.name;
-    setVehicleDropdowns(updatedDropdowns);
-
-    const updatedVehicleOptions = reduceSelectedVehicleTotal(
       vehicleOptions,
-      value
+      setVehicleDropdowns,
+      setPlanetNames
     );
-    setVehicleOptions(updatedVehicleOptions);
-
-    // Retrieve the selected planet object from the associated planet dropdown
-    const associatedPlanetDropdown = planetDropdowns.find(
-      (dropdown) =>
-        dropdown.id === vehicleDropdowns[index].associatedPlanetDropdown
-    );
-    const selectedPlanet = associatedPlanetDropdown.selected;
-
-    // Calculate time taken for the selected planet and vehicle combination
-    const timeTaken = calculateTimeTaken(selectedPlanet, selectedVehicle);
-
-    // Update the timeTaken property in the corresponding planet dropdown
-    const updatedPlanetDropdowns = [...planetDropdowns];
-    const associatedPlanetIndex = planetDropdowns.findIndex(
-      (dropdown) => dropdown.id === associatedPlanetDropdown.id
-    );
-    updatedPlanetDropdowns[associatedPlanetIndex].timeTaken = timeTaken;
-    setPlanetDropdowns(updatedPlanetDropdowns);
-
-    // Update the total time taken
-    const totalTime = planetDropdowns.reduce(
-      (total, dropdown) => total + dropdown.timeTaken,
-      0
-    );
-    setTotalTimeTaken(totalTime);
-
-    const updatedvehicleNames = updatedDropdowns.map(
-      (dropdown) => dropdown.selected
-    );
-    setVehicleNames(updatedvehicleNames);
   };
-  const calculateTimeTaken = (planet, vehicle) => {
-    if (planet && vehicle) {
-      return planet.distance / parseFloat(vehicle.speed);
-    }
-    return 0;
+
+  const vehicleSelection = (index, value) => {
+    handleVehicleSelection(
+      index,
+      value,
+      vehicleDropdowns,
+      vehicleOptions,
+      setVehicleDropdowns,
+      setVehicleOptions,
+      planetDropdowns,
+      setPlanetDropdowns,
+      setTotalTimeTaken,
+      setVehicleNames
+    );
   };
 
   useEffect(() => {
@@ -225,56 +169,16 @@ export default function Home() {
       });
   }, []);
 
-  const handleFindFalcone = () => {
-    let foundPlanet;
-    let token;
-    let requestData;
-
-    fetch("https://findfalcone.geektrust.com/token", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        token = data.token;
-        requestData = {
-          token,
-          planet_names: planetNames,
-          vehicle_names: vehicleNames,
-        };
-        return fetch("https://findfalcone.geektrust.com/find", {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(requestData),
-        });
-      })
-      .then((response) => response.json())
-      .then((data) => {
-        foundPlanet = data.planet_name;
-
-        const result =
-          data.status === "success" ? data.planet_name : "AI Falcone not found";
-        // Redirect to the Result component with the result in the URL
-        navigate("/result", {
-          state: {
-            totalTimeTaken,
-            foundPlanet,
-            result,
-          },
-        });
-      })
-
-      .catch((error) => {
-        const errorMessage =
-          "Token not initialized. Please get a new token with /token API.";
-        setTokenErrorMessage(errorMessage);
-      });
+  const findFalcone = () => {
+    handleFindFalcone(
+      planetNames,
+      vehicleNames,
+      navigate,
+      totalTimeTaken,
+      setTokenErrorMessage
+    );
   };
+
   return (
     <>
       <Header />
@@ -289,15 +193,15 @@ export default function Home() {
             <Selector
               vehicleDropdowns={vehicleDropdowns}
               planetDropdowns={planetDropdowns}
-              handlePlanetToggle={handlePlanetToggle}
+              handlePlanetToggle={togglePlanet}
               planetOptions={planetOptions}
-              handlePlanetSelection={handlePlanetSelection}
-              handleVehicleSelection={handleVehicleSelection}
+              handlePlanetSelection={planetSelection}
+              handleVehicleSelection={vehicleSelection}
             />
           )}
           <div>
             <Button
-              onClick={handleFindFalcone}
+              onClick={findFalcone}
               className={classes.button}
               disabled={
                 planetNames.length < 4 ||
