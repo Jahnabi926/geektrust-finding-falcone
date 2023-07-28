@@ -1,6 +1,10 @@
 import styles from "../styles/selector.module.css";
 
-const renderVehicleOptions = (dropdown, index, handleVehicleSelection) => {
+export const renderVehicleOptions = (
+  dropdown,
+  index,
+  handleVehicleSelection
+) => {
   return (
     <ul className={styles.vehicles_dropdown_list}>
       {dropdown.filteredVehicleOptions.map((option, optionIndex) => (

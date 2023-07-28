@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Button from "../components/Button";
 import styles from "../styles/selector.module.css";
 import classes from "../styles/button.module.css";
@@ -15,30 +16,47 @@ export const DestinationDropdown = ({
   index,
   planetOptions,
   planetDropdowns,
+  setPlanetDropdowns,
   handlePlanetToggle,
   handlePlanetSelection,
+  userInput,
+  handleInput,
 }) => {
+  const [selectedOption, setSelectedOption] = useState(null);
+
+  const handleOptionSelection = (option) => {
+    setSelectedOption(option);
+    handlePlanetSelection(index, option);
+    handlePlanetToggle(index);
+  };
+
+  // Function to filter planet options based on user input
+  const filterPlanetOptions = (planetOptions, userInput) => {
+    return planetOptions.filter((option) =>
+      option.name.toLowerCase().includes(userInput.toLowerCase())
+    );
+  };
+
   return (
     <>
       <p>Destination {`${index + 1}`}</p>
-      <Button
+      <input
+        type="text"
+        value={selectedOption ? selectedOption.name : userInput}
+        onChange={(e) => handleInput(e.target.value)}
         onClick={() => handlePlanetToggle(index)}
-        className={classes.dropdown_button}
-      >
-        {dropdown.selected ? dropdown.selected.name : "Select an option"}
-      </Button>
-      {dropdown.isOpen && (
+        placeholder="Start typing to search..."
+      />
+      {planetDropdowns[index].isOpen && userInput && (
         <ul className={styles.planets_dropdown_list}>
-          {filterPlanetOptions(planetOptions, planetDropdowns, index).map(
-            (option) => (
-              <li
-                key={`dropdown-${index}-${option.name}`}
-                onClick={() => handlePlanetSelection(index, option)}
-              >
-                {option.name}
-              </li>
-            )
-          )}
+          {filterPlanetOptions(planetOptions, userInput).map((option) => (
+            <li
+              key={`dropdown-${index}-${option.name}`}
+              onClick={() => handleOptionSelection(option)}
+            >
+              {option.name}
+            </li>
+          ))}
         </ul>
       )}
     </>

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   DestinationDropdown,
   VehicleDropdown,
@@ -11,9 +12,19 @@ export default function Selector(props) {
     vehicleDropdowns,
     handlePlanetToggle,
     handlePlanetSelection,
+    handleOptionSelection,
     handleVehicleSelection,
   } = props;
 
+  const [userInputs, setUserInputs] = useState(planetDropdowns.map(() => ""));
+
+    // Function to handle user input change for a specific destination dropdown
+    const handleInput = (index, value) => {
+        const newInputs = [...userInputs];
+        newInputs[index] = value;
+        setUserInputs(newInputs);
+      };
+    
   return (
     <>
       <div className={styles.container}>
@@ -26,6 +37,9 @@ export default function Selector(props) {
               planetDropdowns={planetDropdowns}
               handlePlanetToggle={handlePlanetToggle}
               handlePlanetSelection={handlePlanetSelection}
+              handleOptionSelection={handleOptionSelection}
+              userInput={userInputs[index]}
+              handleInput={value => handleInput(index, value)}
             />
             <VehicleDropdown
               dropdown={vehicleDropdowns[index]}
