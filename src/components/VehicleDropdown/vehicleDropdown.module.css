@@ -1,0 +1,8 @@
+.vehicles_dropdown_list {
+  list-style-type: none;
+  padding: 0;
+  text-align: left;
+}
+.vehicles_dropdown_list input {
+  cursor: pointer;
+}

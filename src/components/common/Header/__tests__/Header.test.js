@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
-import Header from "../components/common/Header";
+import Header from "../Header";
 
 describe("Header Component", () => {
     const original = window.location;

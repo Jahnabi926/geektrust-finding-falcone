@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "../components/Button";
-import Selector from "../components/Selector";
+import Button from "../../components/common/Button/Button";
+import Selector from "../../components/Selector/Selector";
 import {
   handlePlanetToggle,
   handlePlanetSelection,
   handleVehicleSelection,
-  handleFindFalcone,
-} from "../helpers/HomeUtilityFunctions";
-import Header from "../components/common/Header";
-import Footer from "../components/common/Footer";
-import styles from "../styles/selector.module.css";
-import classes from "../styles/button.module.css";
-import "../styles/spinner.css";
+} from "../../helpers/home.utils";
+import Header from "../../components/common/Header/Header";
+import Footer from "../../components/common/Footer/Footer";
+import styles from "../Home/home.module.css";
+import classes from "../../components/common/Button/button.module.css";
+import Spinner from "../../components/common/Spinner/Spinner";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -179,25 +178,66 @@ export default function Home() {
       });
   }, []);
 
-  const findFalcone = () => {
-    handleFindFalcone(
-      planetNames,
-      vehicleNames,
-      navigate,
-      totalTimeTaken,
-      setTokenErrorMessage
-    );
+  const handleFindFalcone = () => {
+    let foundPlanet;
+    let token;
+    let requestData;
+
+    fetch("https://findfalcone.geektrust.com/token", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        token = data.token;
+        requestData = {
+          token,
+          planet_names: planetNames,
+          vehicle_names: vehicleNames,
+        };
+        return fetch("https://findfalcone.geektrust.com/find", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestData),
+        });
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        foundPlanet = data.planet_name;
+
+        const result =
+          data.status === "success" ? data.planet_name : "AI Falcone not found";
+        // Redirect to the Result component with the result in the URL
+        navigate("/result", {
+          state: {
+            totalTimeTaken,
+            foundPlanet,
+            result,
+          },
+        });
+      })
+
+      .catch((error) => {
+        const errorMessage =
+          "Token not initialized. Please get a new token with /token API.";
+        setTokenErrorMessage(errorMessage);
+      });
   };
 
   return (
     <>
       <Header />
-      <div className={styles.App}>
+      <div className="App">
         <div className={styles.home}>
           <h4>Select planets you want to search in: </h4>
 
           {loading ? (
-            <div className="spinner" />
+            <Spinner />
           ) : (
             <>
               {tokenErrorMessage ? (
@@ -224,7 +264,7 @@ export default function Home() {
           )}
           <div>
             <Button
-              onClick={findFalcone}
+              onClick={handleFindFalcone}
               className={classes.button}
               disabled={
                 planetNames.length < 4 ||

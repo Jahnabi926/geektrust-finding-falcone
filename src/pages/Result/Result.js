@@ -1,11 +1,11 @@
 import React from "react";
 import { useLocation, Link } from "react-router-dom";
-import Button from "../components/Button";
-import Header from "../components/common/Header";
-import Footer from "../components/common/Footer";
-import styles from "../styles/selector.module.css";
-import classes from "../styles/button.module.css";
-import "../styles/spinner.css";
+import Button from "../../components/common/Button/Button";
+import Header from "../../components/common/Header/Header";
+import Footer from "../../components/common/Footer/Footer";
+import styles from "../Result/result.module.css";
+import classes from "../../components/common/Button/button.module.css";
+import Spinner from "../../components/common/Spinner/Spinner";
 
 const Result = () => {
   const location = useLocation();
@@ -14,10 +14,10 @@ const Result = () => {
   return (
     <>
       <Header />
-      <div className={styles.App}>
+      <div className="App">
         <div className={styles.result}>
           {findResult === null ? (
-            <div className="spinner" />
+            <Spinner />
           ) : (
             <>
               {findResult === "AI Falcone not found" ? (

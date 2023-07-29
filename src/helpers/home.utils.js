@@ -1,7 +1,6 @@
 // Utility function to get filtered planet options
-const getFilteredPlanetOptions = (selectedPlanetName, planetOptions) => {
-  return planetOptions.filter((planet) => planet.name !== selectedPlanetName);
-};
+const getFilteredPlanetOptions = (selectedPlanetName, planetOptions) =>
+  planetOptions.filter((planet) => planet.name !== selectedPlanetName);
 
 // Utility function to update the planet dropdowns
 const updatePlanetDropdowns = (
@@ -34,19 +33,17 @@ const updatePlanetDropdowns = (
 };
 
 // Utility function to get the associated vehicle dropdown
-const getAssociatedVehicleDropdown = (index, vehicleDropdowns) => {
-  return vehicleDropdowns.find(
+const getAssociatedVehicleDropdown = (index, vehicleDropdowns) =>
+  vehicleDropdowns.find(
     (dropdown) => dropdown.associatedPlanetDropdown === `d${index + 1}`
   );
-};
 
 // Utility function to filter vehicle options based on selected planet's distance
-const filterVehicleOptions = (selectedPlanet, vehicleOptions) => {
-  return vehicleOptions.filter(
+const filterVehicleOptions = (selectedPlanet, vehicleOptions) =>
+  vehicleOptions.filter(
     (option) =>
       option.total > 0 && option.maxDistance >= selectedPlanet.distance
   );
-};
 
 // Utility function to update the associated vehicle dropdown
 const updateAssociatedVehicleDropdown = (
@@ -55,30 +52,30 @@ const updateAssociatedVehicleDropdown = (
   vehicleDropdowns,
   vehicleOptions
 ) => {
-  if (associatedVehicleDropdown) {
-    associatedVehicleDropdown.selectedPlanet = selectedPlanet;
-    const filteredVehicleOptions = filterVehicleOptions(
-      selectedPlanet,
-      vehicleOptions
-    );
+  if (!associatedVehicleDropdown) {
+    return vehicleDropdowns;
+  }
+  associatedVehicleDropdown.selectedPlanet = selectedPlanet;
+  const filteredVehicleOptions = filterVehicleOptions(
+    selectedPlanet,
+    vehicleOptions
+  );
 
-    const updatedVehicleDropdowns = [...vehicleDropdowns];
+  const updatedVehicleDropdowns = [...vehicleDropdowns];
 
-    const associatedDropdownIndex = updatedVehicleDropdowns.findIndex(
-      (dropdown) => dropdown.id === associatedVehicleDropdown.id
-    );
-    if (associatedDropdownIndex !== -1) {
-      updatedVehicleDropdowns[associatedDropdownIndex] = {
-        ...updatedVehicleDropdowns[associatedDropdownIndex],
-        filteredVehicleOptions: filteredVehicleOptions,
-      };
-      updatedVehicleDropdowns[associatedDropdownIndex].isOpen = true;
-    }
+  const associatedDropdownIndex = updatedVehicleDropdowns.findIndex(
+    (dropdown) => dropdown.id === associatedVehicleDropdown.id
+  );
 
-    return updatedVehicleDropdowns;
+  if (associatedDropdownIndex !== -1) {
+    updatedVehicleDropdowns[associatedDropdownIndex] = {
+      ...updatedVehicleDropdowns[associatedDropdownIndex],
+      filteredVehicleOptions: filteredVehicleOptions,
+    };
+    updatedVehicleDropdowns[associatedDropdownIndex].isOpen = true;
   }
 
-  return vehicleDropdowns;
+  return updatedVehicleDropdowns;
 };
 
 // Helper function to reduce the total number of the selected vehicle
@@ -213,59 +210,4 @@ export const handleVehicleSelection = (
   setVehicleNames(updatedvehicleNames);
 };
 
-export const handleFindFalcone = (
-  planetNames,
-  vehicleNames,
-  navigate,
-  totalTimeTaken,
-  setTokenErrorMessage
-) => {
-  let foundPlanet;
-  let token;
-  let requestData;
 
-  fetch("https://findfalcone.geektrust.com/token", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      token = data.token;
-      requestData = {
-        token,
-        planet_names: planetNames,
-        vehicle_names: vehicleNames,
-      };
-      return fetch("https://findfalcone.geektrust.com/find", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestData),
-      });
-    })
-    .then((response) => response.json())
-    .then((data) => {
-      foundPlanet = data.planet_name;
-
-      const result =
-        data.status === "success" ? data.planet_name : "AI Falcone not found";
-      // Redirect to the Result component with the result in the URL
-      navigate("/result", {
-        state: {
-          totalTimeTaken,
-          foundPlanet,
-          result,
-        },
-      });
-    })
-
-    .catch((error) => {
-      const errorMessage =
-        "Token not initialized. Please get a new token with /token API.";
-      setTokenErrorMessage(errorMessage);
-    });
-};
