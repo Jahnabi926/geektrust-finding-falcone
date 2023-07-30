@@ -3,77 +3,69 @@ import Button from "../common/Button/Button";
 import classes from "../common/Button/button.module.css";
 import caretIcon from "../../images/caret-icon.jpg";
 import iconStyle from "../../images/caretIcon.module.css";
+import { useState } from "react";
 
-// const handleOptionSelection = (
-//   option,
-//   index,
-//   setSelectedOption,
-//   handlePlanetSelection,
-//   handlePlanetToggle
-// ) => {
-//   setSelectedOption(option);
-//   handlePlanetSelection(index, option);
-//   handlePlanetToggle(index);
-// };
-
-// // Function to filter planet options based on user input
-// const filterPlanetOptions = (planetOptions, userInput) =>
-//   planetOptions.filter((option) =>
-//     option.name.toLowerCase().includes(userInput.toLowerCase())
-//   );
-
-//Function to filter planet options
-const filterPlanetOptions = (planetOptions, planetDropdowns, index) => {
-  return planetOptions.filter((option) =>
-    planetDropdowns.every((d, i) => i === index || d.selected !== option.name)
+const filteredOptions = (planetOptions, inputValue) =>
+  planetOptions.filter((option) =>
+    option.name.toLowerCase().includes(inputValue.toLowerCase())
   );
-};
 
 export default function PlanetDropdown({
   dropdown,
   index,
   planetOptions,
-  planetDropdowns,
   handlePlanetToggle,
   handlePlanetSelection,
 }) {
-  // const [selectedOption, setSelectedOption] = useState(null);
+  const [inputValue, setInputValue] = useState("");
+
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value);
+  };
+
+  const options = filteredOptions(planetOptions, inputValue);
 
   return (
     <>
       <p>Destination {`${index + 1}`}</p>
-      {/* <input
-        type="text"
-        value={selectedOption ? selectedOption.name : userInput}
-        onChange={(e) => handleInput(e.target.value)}
-        onClick={() => handlePlanetToggle(index)}
-        placeholder="Start typing to search..."
-      /> */}
-      <Button
-        onClick={() => handlePlanetToggle(index)}
-        className={classes.dropdown_button}
-      >
-        {dropdown.selected ? dropdown.selected.name : "Select an option"}
-        <img
-          className={` ${iconStyle.caret} ${
-            dropdown.isOpen ? iconStyle.rotated : ""
-          }`}
-          src={caretIcon}
-          alt="Caret Icon"
+      {dropdown.isOpen ? (
+        <input
+          type="text"
+          value={inputValue}
+          onChange={handleInputChange}
+          placeholder="Start typing to search..."
         />
-      </Button>
+      ) : (
+        <Button
+          onClick={() => handlePlanetToggle(index)}
+          className={classes.dropdown_button}
+        >
+          {dropdown.selected ? dropdown.selected.name : "Select an option"}
+          <img
+            className={` ${iconStyle.caret} ${
+              dropdown.isOpen ? iconStyle.rotated : ""
+            }`}
+            src={caretIcon}
+            alt="Caret Icon"
+          />
+        </Button>
+      )}
 
       {dropdown.isOpen && (
         <ul className={styles.planets_dropdown_list}>
-          {filterPlanetOptions(planetOptions, planetDropdowns, index).map(
-            (option) => (
+          {options.length > 0 ? (
+            options.map((option) => (
               <li
                 key={`dropdown-${index}-${option.name}`}
                 onClick={() => handlePlanetSelection(index, option)}
               >
                 {option.name}
               </li>
-            )
+            ))
+          ) : (
+            <li className={styles.no_matching_options}>
+              No matching options found.
+            </li>
           )}
         </ul>
       )}

@@ -1,11 +1,16 @@
 import styles from "../Header/header.module.css";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function Header() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleReset = () => {
-    navigate("/");
+    if (location.pathname === "/result") {
+      navigate("/");
+    } else {
+      window.location.reload();
+    }
   };
 
   return (

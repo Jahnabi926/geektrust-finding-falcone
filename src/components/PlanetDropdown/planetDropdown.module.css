@@ -1,6 +1,18 @@
 .planets_dropdown_list {
   list-style-type: none;
-  padding: 5px 0;
+  padding: 6px 0;
   cursor: pointer;
+  border-radius: 5px;
+  transition: opacity 0.5s ease-in-out;
+  opacity: 1;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 4px 0 8px rgba(0, 0, 0, 0.2);
+}
+.planets_dropdown_list li {
+  padding: 4px;
+}
+.no_matching_options {
+  padding: 6px;
+  color: red;
+  font-style: italic;
+  font-size: 13px;
 }
