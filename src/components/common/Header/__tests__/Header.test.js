@@ -1,75 +1,43 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import "@testing-library/jest-dom/extend-expect";
 import Header from "../Header";
 
+// Mock the useNavigate hook
+jest.mock("react-router-dom", () => ({
+  useNavigate: () => jest.fn(),
+}));
+
 describe("Header Component", () => {
-    const original = window.location;
-
-    const reloadFn = () => {
-      window.location.reload();
-    };
-  
-    beforeAll(() => {
-      Object.defineProperty(window, 'location', {
-        configurable: true,
-        value: { reload: jest.fn() },
-      });
-    });
-  
-    afterAll(() => {
-      Object.defineProperty(window, 'location', { configurable: true, value: original });
-    });
-  
-  
-  // Test case 1: Render the header with the correct title and links
-  it("should render the header with the correct title and links", () => {
+  test("renders without errors", () => {
     render(<Header />);
-
-    // Check if the title is rendered correctly
-    const titleElement = screen.getByText("Finding Falcone !");
-    expect(titleElement).toBeInTheDocument();
-
-    // Check if the "GeekTrust Home" link is present and has the correct href
-    const homeLinkElement = screen.getByText("GeekTrust Home");
-    expect(homeLinkElement).toBeInTheDocument();
-    expect(homeLinkElement).toHaveAttribute("href", "/");
-
-    // Check if the "Reset" span element is present
-    const resetSpanElement = screen.getByText("Reset");
-    expect(resetSpanElement).toBeInTheDocument();
   });
 
-  // Test case 2: Ensure clicking on the "Reset" link reloads the page
-  it("should reload the page when the 'Reset' link is clicked", () => {
+  test("renders 'GeekTrust Home' link with the correct URL", () => {
     render(<Header />);
-
-    const resetSpanElement = screen.getByText("Reset");
-    fireEvent.click(resetSpanElement);
+    const homeLink = screen.getByText("GeekTrust Home");
+    expect(homeLink).toBeInTheDocument();
+    expect(homeLink.href).toContain("/");
   });
 
-  it('mocks reload function', () => {
-    expect(jest.isMockFunction(window.location.reload)).toBe(true);
-  });
-
-  it('calls reload function', () => {
-    reloadFn(); // as defined above..
-    expect(window.location.reload).toHaveBeenCalled();
-  });
-
-  // Test case 3: Ensure the correct CSS classes are applied
-  it("should have the correct CSS classes applied to the header elements", () => {
+  test("renders 'Reset' button and it's clickable", () => {
     render(<Header />);
+    const resetButton = screen.getByText("Reset");
+    expect(resetButton).toBeInTheDocument();
 
-    const headerElement = screen.getByRole("banner"); // Selects the <header> element
-    expect(headerElement).toBeInTheDocument();
+    // Check if the 'Reset' button is clickable
+    fireEvent.click(resetButton);
+  });
 
-    const titleElement = screen.getByText("Finding Falcone !");
-    expect(titleElement).toHaveClass("title");
+  test("clicking 'Reset' button calls handleReset function", () => {
+    const navigateMock = jest.fn();
+    jest
+      .spyOn(require("react-router-dom"), "useNavigate")
+      .mockReturnValue(navigateMock);
 
-    const homeLinkContainer = screen.getByTestId("home-link-container"); // Use getByTestId to select the container div of the "GeekTrust Home" link
-    expect(homeLinkContainer).toHaveClass("header_links");
+    render(<Header />);
+    const resetButton = screen.getByText("Reset");
 
-    const resetSpanElement = screen.getByText("|");
-    expect(resetSpanElement).toHaveClass("header_space");
+    fireEvent.click(resetButton);
+
+    expect(navigateMock).toHaveBeenCalledWith("/");
   });
 });

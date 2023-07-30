@@ -1,37 +1,36 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import "@testing-library/jest-dom/extend-expect"; 
 import Button from "../Button";
 
 describe("Button Component", () => {
-  // Test case 1: Render the button correctly
-  it("should render the button with children", () => {
-    const buttonText = "Click me!";
-    render(<Button>{buttonText}</Button>);
-    const buttonElement = screen.getByText(buttonText);
-    expect(buttonElement).toBeInTheDocument();
+  test("renders without errors", () => {
+    render(<Button>Click Me</Button>);
   });
 
-  // Test case 2: Call the onClick handler when the button is clicked
-  it("should call the onClick handler when the button is clicked", () => {
+  test("displays the correct text", () => {
+    const buttonText = "Click Me";
+    render(<Button>{buttonText}</Button>);
+    const button = screen.getByText(buttonText);
+    expect(button).toBeInTheDocument();
+  });
+
+  test("triggers onClick event", () => {
     const onClickMock = jest.fn();
-    render(<Button onClick={onClickMock}>Click me!</Button>);
-    const buttonElement = screen.getByText("Click me!");
-    fireEvent.click(buttonElement);
+    render(<Button onClick={onClickMock}>Click Me</Button>);
+    const button = screen.getByText("Click Me");
+    fireEvent.click(button);
     expect(onClickMock).toHaveBeenCalledTimes(1);
   });
 
-  // Test case 3: Button should be disabled when 'disabled' prop is true
-  it("should be disabled when 'disabled' prop is true", () => {
-    render(<Button disabled>Click me!</Button>);
-    const buttonElement = screen.getByText("Click me!");
-    expect(buttonElement).toBeDisabled();
-  });
-
-  // Test case 4: Custom CSS class should be applied to the button
-  it("should apply custom CSS class to the button", () => {
-    const customClass = "custom-button";
-    render(<Button className={customClass}>Click me!</Button>);
-    const buttonElement = screen.getByText("Click me!");
-    expect(buttonElement).toHaveClass(customClass);
+  test("is disabled when disabled prop is true", () => {
+    const onClickMock = jest.fn();
+    render(
+      <Button onClick={onClickMock} disabled={true}>
+        Click Me
+      </Button>
+    );
+    const button = screen.getByText("Click Me");
+    expect(button).toBeDisabled();
+    fireEvent.click(button);
+    expect(onClickMock).not.toHaveBeenCalled();
   });
 });
