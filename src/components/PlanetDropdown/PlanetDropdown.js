@@ -1,6 +1,8 @@
 import styles from "../PlanetDropdown/planetDropdown.module.css";
 import Button from "../common/Button/Button";
 import classes from "../common/Button/button.module.css";
+import caretIcon from "../../images/caret-icon.jpg";
+import iconStyle from "../../images/caretIcon.module.css";
 
 // const handleOptionSelection = (
 //   option,
@@ -52,6 +54,13 @@ export default function PlanetDropdown({
         className={classes.dropdown_button}
       >
         {dropdown.selected ? dropdown.selected.name : "Select an option"}
+        <img
+          className={` ${iconStyle.caret} ${
+            dropdown.isOpen ? iconStyle.rotated : ""
+          }`}
+          src={caretIcon}
+          alt="Caret Icon"
+        />
       </Button>
 
       {dropdown.isOpen && (
