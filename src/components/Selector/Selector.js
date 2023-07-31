@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import PlanetDropdown from "../PlanetDropdown/PlanetDropdown";
 import VehicleDropdown from "../VehicleDropdown/VehicleDropdown";
 import styles from "../Selector/selector.module.css";
@@ -23,8 +23,30 @@ export default function Selector(props) {
     setUserInputs(newInputs);
   };
 
+  // Handle click outside
+  const selectorRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (selectorRef.current && !selectorRef.current.contains(event.target)) {
+        // Logic to close all open dropdowns when clicking outside
+        planetDropdowns.forEach((dropdown, index) => {
+          if (dropdown.isOpen) {
+            handlePlanetToggle(index);
+          }
+        });
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [planetDropdowns, handlePlanetToggle]);
+
   return (
-    <div className={styles.container}>
+    <div className={styles.container} ref={selectorRef}>
       {planetDropdowns.map((dropdown, index) => (
         <div key={`planet-dropdown-${index}`}>
           <PlanetDropdown

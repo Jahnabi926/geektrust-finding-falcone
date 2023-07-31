@@ -12,7 +12,7 @@ const updatePlanetDropdowns = (
   updatedDropdowns[index].selected = value;
   updatedDropdowns[index].isOpen = false;
 
-  const updatedPlanetOptions = planetOptions.filter(
+  const updatedPlanetOptions = [...planetOptions].filter(
     (planet) => planet.name !== value
   );
   const filteredDropdowns = updatedDropdowns.map((dropdown, dropdownIndex) => {
@@ -55,25 +55,33 @@ const updateAssociatedVehicleDropdown = (
   if (!associatedVehicleDropdown) {
     return vehicleDropdowns;
   }
-  associatedVehicleDropdown.selectedPlanet = selectedPlanet;
+
+  // Create a new object rather than mutating the existing one
+  const updatedVehicleDropdown = {
+    ...associatedVehicleDropdown,
+    selectedPlanet: selectedPlanet,
+  };
+
+  // Filter the vehicle options based on the selected planet's distance
   const filteredVehicleOptions = filterVehicleOptions(
     selectedPlanet,
     vehicleOptions
   );
 
-  const updatedVehicleDropdowns = [...vehicleDropdowns];
+  // Update the filtered options for the associated vehicle dropdown
+  updatedVehicleDropdown.filteredVehicleOptions = filteredVehicleOptions;
 
-  const associatedDropdownIndex = updatedVehicleDropdowns.findIndex(
+  // Find the index of the associated vehicle dropdown in the updated list
+  const associatedDropdownIndex = vehicleDropdowns.findIndex(
     (dropdown) => dropdown.id === associatedVehicleDropdown.id
   );
 
-  if (associatedDropdownIndex !== -1) {
-    updatedVehicleDropdowns[associatedDropdownIndex] = {
-      ...updatedVehicleDropdowns[associatedDropdownIndex],
-      filteredVehicleOptions: filteredVehicleOptions,
-    };
-    updatedVehicleDropdowns[associatedDropdownIndex].isOpen = true;
-  }
+  // Create a copy of the vehicle dropdowns list and update the relevant dropdown
+  const updatedVehicleDropdowns = [...vehicleDropdowns];
+  updatedVehicleDropdowns[associatedDropdownIndex] = updatedVehicleDropdown;
+
+  // Set isOpen to true so the filtered options will be shown immediately
+  updatedVehicleDropdowns[associatedDropdownIndex].isOpen = true;
 
   return updatedVehicleDropdowns;
 };
@@ -209,5 +217,3 @@ export const handleVehicleSelection = (
   );
   setVehicleNames(updatedvehicleNames);
 };
-
-
