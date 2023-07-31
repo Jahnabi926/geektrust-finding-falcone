@@ -217,7 +217,7 @@ export default function Home() {
           state: {
             totalTimeTaken,
             foundPlanet,
-            result,
+            findResult: result,
           },
         });
       })
