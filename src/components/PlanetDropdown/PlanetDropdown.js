@@ -7,8 +7,10 @@ import { useState } from "react";
 
 const filteredOptions = (planetOptions, inputValue, index) =>
   planetOptions
-    .filter((option) =>
-      option.selectedByDropdown === `d${index}` || option.selectedByDropdown === undefined
+    .filter(
+      (option) =>
+        option.selectedByDropDown === `d${index}` ||
+        option.selectedByDropDown === undefined
     )
     .filter((option) =>
       option.name.toLowerCase().includes(inputValue.toLowerCase())

@@ -10,20 +10,28 @@ const updatePlanetDropdowns = (
   console.log("value", value);
   console.log("planetOptions", planetOptions);
 
-  const updatedPlanetOptions = planetOptions.map(
-    (planet) => {
-      if(planet.name === value.name) {
-        return {
-          ...planet,
-          selectedByDropdown: `d${index}`
-        }
-      }
-      return planet
+  const updatedPlanetOptions = planetOptions.map((planet) => {
+    // remove if a selection was made for a same dropdown
+    if (
+      planet.selectedByDropDown &&
+      planet.selectedByDropDown === `d${index}`
+    ) {
+      return {
+        ...planet,
+        selectedByDropDown: undefined,
+      };
     }
-  );
-  // const updatedPlanetOptions = [...planetOptions].filter(
-  //   (planet) => planet.name !== value.name
-  // );
+
+    if (planet.name === value.name) {
+      return {
+        ...planet,
+        selectedByDropDown: `d${index}`,
+      };
+    }
+
+    return planet;
+  });
+
   console.log("updatedPlanetOptions", updatedPlanetOptions);
   const filteredDropdowns = updatedDropdowns.map((dropdown, dropdownIndex) => {
     if (dropdownIndex !== index) {
