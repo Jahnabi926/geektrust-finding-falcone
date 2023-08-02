@@ -61,7 +61,10 @@ export default function PlanetDropdown({
             options.map((option) => (
               <li
                 key={`dropdown-${index}-${option.name}`}
-                onClick={() => handlePlanetSelection(index, option)}
+                onClick={() => { 
+                  handlePlanetSelection(index, option)
+                  setInputValue(option.name)
+                }}
               >
                 {option.name}
               </li>
