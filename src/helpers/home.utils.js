@@ -1,7 +1,3 @@
-// Utility function to get filtered planet options
-const getFilteredPlanetOptions = (selectedPlanetName, planetOptions) =>
-  planetOptions.filter((planet) => planet.name !== selectedPlanetName);
-
 // Utility function to update the planet dropdowns
 const updatePlanetDropdowns = (
   updatedDropdowns,
@@ -11,22 +7,30 @@ const updatePlanetDropdowns = (
 ) => {
   updatedDropdowns[index].selected = value;
   updatedDropdowns[index].isOpen = false;
-
+  console.log("value", value);
+  console.log("planetOptions", planetOptions);
   const updatedPlanetOptions = [...planetOptions].filter(
-    (planet) => planet.name !== value
+    (planet) => planet.name !== value.name
   );
+  console.log("updatedPlanetOptions", updatedPlanetOptions);
   const filteredDropdowns = updatedDropdowns.map((dropdown, dropdownIndex) => {
     if (dropdownIndex !== index) {
-      const filteredOptions = getFilteredPlanetOptions(
-        dropdown.selected?.name,
-        updatedPlanetOptions
-      );
+      const filteredOptions = updatedPlanetOptions;
       return {
         ...dropdown,
         filteredOptions: filteredOptions,
       };
     }
-    return dropdown;
+    const selectedPlanet = planetOptions.find(
+      (planet) => planet.name === value.name
+    );
+    console.log("Selected Planet:", selectedPlanet);
+
+    return {
+      ...dropdown,
+      selected: selectedPlanet,
+      filteredOptions: updatedPlanetOptions,
+    };
   });
 
   return { filteredDropdowns, updatedPlanetOptions };

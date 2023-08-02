@@ -34,7 +34,7 @@ const Result = () => {
           <p>
             Planet found:{" "}
             {findResult === "AI Falcone not found"
-              ? "No planet found"
+              ? "None"
               : foundPlanet}
           </p>
           <Link to="/">

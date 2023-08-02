@@ -1,7 +1,8 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import PlanetDropdown from "../PlanetDropdown/PlanetDropdown";
 import VehicleDropdown from "../VehicleDropdown/VehicleDropdown";
 import styles from "../Selector/selector.module.css";
+import React from "react";
 
 export default function Selector(props) {
   const {
@@ -46,7 +47,7 @@ export default function Selector(props) {
   }, [planetDropdowns, handlePlanetToggle]);
 
   return (
-    <div className={styles.container} ref={selectorRef}>
+    <div className={styles.dropdown} ref={selectorRef}>
       {planetDropdowns.map((dropdown, index) => (
         <div key={`planet-dropdown-${index}`}>
           <PlanetDropdown

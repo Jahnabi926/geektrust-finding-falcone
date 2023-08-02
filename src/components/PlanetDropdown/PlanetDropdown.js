@@ -34,6 +34,7 @@ export default function PlanetDropdown({
           value={inputValue}
           onChange={handleInputChange}
           placeholder="Start typing to search..."
+          autoFocus
         />
       ) : (
         <Button
@@ -50,7 +51,6 @@ export default function PlanetDropdown({
           />
         </Button>
       )}
-
       {dropdown.isOpen && (
         <ul className={styles.planets_dropdown_list}>
           {options.length > 0 ? (
