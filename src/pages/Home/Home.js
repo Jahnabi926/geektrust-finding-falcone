@@ -132,6 +132,7 @@ export default function Home() {
           return {
             name: planet.name,
             distance: planet.distance,
+            selectedByDropDown: undefined
           };
         });
         setPlanetOptions(planetsData);

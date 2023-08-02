@@ -9,9 +9,21 @@ const updatePlanetDropdowns = (
   updatedDropdowns[index].isOpen = false;
   console.log("value", value);
   console.log("planetOptions", planetOptions);
-  const updatedPlanetOptions = [...planetOptions].filter(
-    (planet) => planet.name !== value.name
+
+  const updatedPlanetOptions = planetOptions.map(
+    (planet) => {
+      if(planet.name === value.name) {
+        return {
+          ...planet,
+          selectedByDropdown: `d${index}`
+        }
+      }
+      return planet
+    }
   );
+  // const updatedPlanetOptions = [...planetOptions].filter(
+  //   (planet) => planet.name !== value.name
+  // );
   console.log("updatedPlanetOptions", updatedPlanetOptions);
   const filteredDropdowns = updatedDropdowns.map((dropdown, dropdownIndex) => {
     if (dropdownIndex !== index) {

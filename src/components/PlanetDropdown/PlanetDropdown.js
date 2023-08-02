@@ -5,10 +5,14 @@ import caretIcon from "../../images/caret-icon.jpg";
 import iconStyle from "../../images/caretIcon.module.css";
 import { useState } from "react";
 
-const filteredOptions = (planetOptions, inputValue) =>
-  planetOptions.filter((option) =>
-    option.name.toLowerCase().includes(inputValue.toLowerCase())
-  );
+const filteredOptions = (planetOptions, inputValue, index) =>
+  planetOptions
+    .filter((option) =>
+      option.selectedByDropdown === `d${index}` || option.selectedByDropdown === undefined
+    )
+    .filter((option) =>
+      option.name.toLowerCase().includes(inputValue.toLowerCase())
+    );
 
 export default function PlanetDropdown({
   dropdown,
@@ -23,8 +27,8 @@ export default function PlanetDropdown({
     setInputValue(event.target.value);
   };
 
-  const options = filteredOptions(planetOptions, inputValue);
-
+  const options = filteredOptions(planetOptions, inputValue, index);
+  console.log("xxx", index);
   return (
     <>
       <p>Destination {`${index + 1}`}</p>
