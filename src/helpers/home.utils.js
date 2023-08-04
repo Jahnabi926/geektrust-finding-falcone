@@ -1,5 +1,5 @@
 // Utility function to update the planet dropdowns
-const updatePlanetDropdowns = (
+export const updatePlanetDropdowns = (
   updatedDropdowns,
   index,
   value,
@@ -41,14 +41,9 @@ const updatePlanetDropdowns = (
         filteredOptions: filteredOptions,
       };
     }
-    const selectedPlanet = planetOptions.find(
-      (planet) => planet.name === value.name
-    );
-    console.log("Selected Planet:", selectedPlanet);
-
     return {
       ...dropdown,
-      selected: selectedPlanet,
+      selected: value,
       filteredOptions: updatedPlanetOptions,
     };
   });
@@ -57,7 +52,7 @@ const updatePlanetDropdowns = (
 };
 
 // Utility function to get the associated vehicle dropdown
-const getAssociatedVehicleDropdown = (index, vehicleDropdowns) =>
+export const getAssociatedVehicleDropdown = (index, vehicleDropdowns) =>
   vehicleDropdowns.find(
     (dropdown) => dropdown.associatedPlanetDropdown === `d${index + 1}`
   );
@@ -70,7 +65,7 @@ const filterVehicleOptions = (selectedPlanet, vehicleOptions) =>
   );
 
 // Utility function to update the associated vehicle dropdown
-const updateAssociatedVehicleDropdown = (
+export const updateAssociatedVehicleDropdown = (
   selectedPlanet,
   associatedVehicleDropdown,
   vehicleDropdowns,
@@ -111,9 +106,9 @@ const updateAssociatedVehicleDropdown = (
 };
 
 // Helper function to reduce the total number of the selected vehicle
-const reduceSelectedVehicleTotal = (vehicleOptions, value) => {
+export const reduceSelectedVehicleTotal = (vehicleOptions, value) => {
   return vehicleOptions.map((option) => {
-    if (option.name === value) {
+    if (option.name === value.name) {
       return {
         ...option,
         total: option.total - 1,
@@ -133,111 +128,9 @@ export const handlePlanetToggle = (
   setPlanetDropdowns(updatedDropdowns);
 };
 
-export const handlePlanetSelection = (
-  index,
-  value,
-  planetDropdowns,
-  setPlanetDropdowns,
-  planetOptions,
-  setPlanetOptions,
-  vehicleDropdowns,
-  vehicleOptions,
-  setVehicleDropdowns,
-  setPlanetNames
-) => {
-  const updatedDropdowns = [...planetDropdowns];
-  const { filteredDropdowns, updatedPlanetOptions } = updatePlanetDropdowns(
-    updatedDropdowns,
-    index,
-    value,
-    planetOptions
-  );
-
-  setPlanetOptions(updatedPlanetOptions);
-  setPlanetDropdowns(filteredDropdowns);
-
-  // Calculate distance of the selected planet
-  const selectedPlanet = planetOptions.find((planet) => planet === value);
-  const associatedVehicleDropdown = getAssociatedVehicleDropdown(
-    index,
-    vehicleDropdowns
-  );
-
-  const updatedVehicleDropdowns = updateAssociatedVehicleDropdown(
-    selectedPlanet,
-    associatedVehicleDropdown,
-    vehicleDropdowns,
-    vehicleOptions
-  );
-
-  setVehicleDropdowns(updatedVehicleDropdowns);
-
-  const updatedPlanetNames = updatedDropdowns.map(
-    (dropdown) => dropdown.selected?.name
-  );
-  setPlanetNames(updatedPlanetNames);
-};
-
-const calculateTimeTaken = (planet, vehicle) => {
+export const calculateTimeTaken = (planet, vehicle) => {
   if (planet && vehicle) {
     return planet.distance / parseFloat(vehicle.speed);
   }
   return 0;
-};
-
-export const handleVehicleSelection = (
-  index,
-  value,
-  vehicleDropdowns,
-  vehicleOptions,
-  setVehicleDropdowns,
-  setVehicleOptions,
-  planetDropdowns,
-  setPlanetDropdowns,
-  setTotalTimeTaken,
-  setVehicleNames
-) => {
-  const updatedDropdowns = [...vehicleDropdowns];
-  const selectedVehicle = vehicleOptions.find(
-    (option) => option.name === value
-  );
-
-  updatedDropdowns[index].selected = selectedVehicle.name;
-  setVehicleDropdowns(updatedDropdowns);
-
-  const updatedVehicleOptions = reduceSelectedVehicleTotal(
-    vehicleOptions,
-    value
-  );
-  setVehicleOptions(updatedVehicleOptions);
-
-  // Retrieve the selected planet object from the associated planet dropdown
-  const associatedPlanetDropdown = planetDropdowns.find(
-    (dropdown) =>
-      dropdown.id === vehicleDropdowns[index].associatedPlanetDropdown
-  );
-  const selectedPlanet = associatedPlanetDropdown.selected;
-
-  // Calculate time taken for the selected planet and vehicle combination
-  const timeTaken = calculateTimeTaken(selectedPlanet, selectedVehicle);
-
-  // Update the timeTaken property in the corresponding planet dropdown
-  const updatedPlanetDropdowns = [...planetDropdowns];
-  const associatedPlanetIndex = planetDropdowns.findIndex(
-    (dropdown) => dropdown.id === associatedPlanetDropdown.id
-  );
-  updatedPlanetDropdowns[associatedPlanetIndex].timeTaken = timeTaken;
-  setPlanetDropdowns(updatedPlanetDropdowns);
-
-  // Update the total time taken
-  const totalTime = planetDropdowns.reduce(
-    (total, dropdown) => total + dropdown.timeTaken,
-    0
-  );
-  setTotalTimeTaken(totalTime);
-
-  const updatedvehicleNames = updatedDropdowns.map(
-    (dropdown) => dropdown.selected
-  );
-  setVehicleNames(updatedvehicleNames);
 };

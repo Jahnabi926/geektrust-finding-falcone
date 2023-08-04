@@ -17,7 +17,7 @@ export default function VehicleDropdown({
                   name={`vehicle-${index}`}
                   value={option.name}
                   checked={option.name === dropdown.selected}
-                  onChange={() => handleVehicleSelection(index, option.name)}
+                  onChange={() => handleVehicleSelection(index, option)}
                   disabled={option.total === 0}
                 />
                 <span>{option.name}</span>

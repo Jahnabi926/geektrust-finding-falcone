@@ -11,13 +11,12 @@ export default function Selector(props) {
     vehicleDropdowns,
     handlePlanetToggle,
     handlePlanetSelection,
-    handleOptionSelection,
     handleVehicleSelection,
   } = props;
 
   const [userInputs, setUserInputs] = useState(planetDropdowns.map(() => ""));
 
-  // Function to handle user input change for a specific destination dropdown
+  // Function to handle user input change for a specific planet dropdown
   const handleInput = (index, value) => {
     const newInputs = [...userInputs];
     newInputs[index] = value;
@@ -47,7 +46,7 @@ export default function Selector(props) {
   }, [planetDropdowns, handlePlanetToggle]);
 
   return (
-    <div className={styles.dropdown} ref={selectorRef}>
+    <div className={styles.selector} ref={selectorRef}>
       {planetDropdowns.map((dropdown, index) => (
         <div key={`planet-dropdown-${index}`}>
           <PlanetDropdown
@@ -57,7 +56,6 @@ export default function Selector(props) {
             planetDropdowns={planetDropdowns}
             handlePlanetToggle={handlePlanetToggle}
             handlePlanetSelection={handlePlanetSelection}
-            handleOptionSelection={handleOptionSelection}
             userInput={userInputs[index]}
             handleInput={(value) => handleInput(index, value)}
           />

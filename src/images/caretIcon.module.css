@@ -1,8 +1,4 @@
 .caret {
   width: 12px;
   margin-left: 15px;
-  transition: transform 0.6s ease;
-}
-.rotated {
-  transform: rotate(180deg);
 }

@@ -31,6 +31,7 @@ export default function PlanetDropdown({
 
   const options = filteredOptions(planetOptions, inputValue, index);
   console.log("xxx", index);
+
   return (
     <>
       <p>Destination {`${index + 1}`}</p>
@@ -39,6 +40,7 @@ export default function PlanetDropdown({
           type="text"
           value={inputValue}
           onChange={handleInputChange}
+          className={styles.input}
           placeholder="Start typing to search..."
           autoFocus
         />
@@ -48,24 +50,22 @@ export default function PlanetDropdown({
           className={classes.dropdown_button}
         >
           {dropdown.selected ? dropdown.selected.name : "Select an option"}
-          <img
-            className={` ${iconStyle.caret} ${
-              dropdown.isOpen ? iconStyle.rotated : ""
-            }`}
-            src={caretIcon}
-            alt="Caret Icon"
-          />
+          <img className={iconStyle.caret} src={caretIcon} alt="Caret Icon" />
         </Button>
       )}
       {dropdown.isOpen && (
-        <ul className={styles.planets_dropdown_list}>
+        <ul
+          className={`${styles.planets_dropdown_list} ${
+            dropdown.isOpen ? styles.open : ""
+          }`}
+        >
           {options.length > 0 ? (
             options.map((option) => (
               <li
                 key={`dropdown-${index}-${option.name}`}
-                onClick={() => { 
-                  handlePlanetSelection(index, option)
-                  setInputValue(option.name)
+                onClick={() => {
+                  handlePlanetSelection(index, option);
+                  setInputValue(option.name);
                 }}
               >
                 {option.name}
