@@ -320,7 +320,7 @@ export default function Home() {
           )}
           <Button
             onClick={handleFindFalcone}
-            className={classes.button}
+            className={classes.button_home}
             disabled={
               planetNames.length < 4 ||
               vehicleNames.length < 4 ||

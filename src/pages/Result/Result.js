@@ -38,7 +38,7 @@ const Result = () => {
               : foundPlanet}
           </p>
           <Link to="/">
-            <Button className={classes.button}>Start Again</Button>
+            <Button className={classes.button_result}>Start Again</Button>
           </Link>
         </div>
       </div>

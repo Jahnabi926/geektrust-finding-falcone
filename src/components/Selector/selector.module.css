@@ -1,5 +1,8 @@
 .selector {
   display: flex;
-  gap: 20px;
   justify-content: center;
+}
+.outer_wrap {
+  display: flex;
+  gap: 20px;
 }

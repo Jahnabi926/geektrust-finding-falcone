@@ -46,26 +46,28 @@ export default function Selector(props) {
   }, [planetDropdowns, handlePlanetToggle]);
 
   return (
-    <div className={styles.selector} ref={selectorRef}>
-      {planetDropdowns.map((dropdown, index) => (
-        <div key={`planet-dropdown-${index}`}>
-          <PlanetDropdown
-            dropdown={dropdown}
-            index={index}
-            planetOptions={planetOptions}
-            planetDropdowns={planetDropdowns}
-            handlePlanetToggle={handlePlanetToggle}
-            handlePlanetSelection={handlePlanetSelection}
-            userInput={userInputs[index]}
-            handleInput={(value) => handleInput(index, value)}
-          />
-          <VehicleDropdown
-            dropdown={vehicleDropdowns[index]}
-            index={index}
-            handleVehicleSelection={handleVehicleSelection}
-          />
-        </div>
-      ))}
+    <div className={styles.selector}>
+      <div className={styles.outer_wrap} ref={selectorRef}>
+        {planetDropdowns.map((dropdown, index) => (
+          <div key={`planet-dropdown-${index}`} className={styles.wrap}>
+            <PlanetDropdown
+              dropdown={dropdown}
+              index={index}
+              planetOptions={planetOptions}
+              planetDropdowns={planetDropdowns}
+              handlePlanetToggle={handlePlanetToggle}
+              handlePlanetSelection={handlePlanetSelection}
+              userInput={userInputs[index]}
+              handleInput={(value) => handleInput(index, value)}
+            />
+            <VehicleDropdown
+              dropdown={vehicleDropdowns[index]}
+              index={index}
+              handleVehicleSelection={handleVehicleSelection}
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

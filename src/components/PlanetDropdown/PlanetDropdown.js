@@ -54,11 +54,7 @@ export default function PlanetDropdown({
         </Button>
       )}
       {dropdown.isOpen && (
-        <ul
-          className={`${styles.planets_dropdown_list} ${
-            dropdown.isOpen ? styles.open : ""
-          }`}
-        >
+        <ul className={styles.planets_dropdown_list}>
           {options.length > 0 ? (
             options.map((option) => (
               <li
