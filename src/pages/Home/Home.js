@@ -12,7 +12,6 @@ import {
 } from "../../helpers/home.utils";
 import Header from "../../components/common/Header/Header";
 import Footer from "../../components/common/Footer/Footer";
-import styles from "../Home/home.module.css";
 import classes from "../../components/common/Button/button.module.css";
 import Spinner from "../../components/common/Spinner/Spinner";
 
@@ -289,7 +288,7 @@ export default function Home() {
     <>
       <Header />
       <div className="App">
-        <div className={styles.home}>
+        <div>
           <h4>Select planets you want to search in: </h4>
 
           {loading ? (
