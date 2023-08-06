@@ -1,11 +1,14 @@
-html,
-body {
+@import url("https://fonts.googleapis.com/css2?family=Borel:wght@100;400&display=swap");
+
+body,
+html {
+  font-family: "Borel";
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   margin: 0;
   padding: 0;
-  font-family: "Times New Roman", Times, serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
+
 .App {
   font-family: serif;
   text-align: center;
