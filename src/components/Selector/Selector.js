@@ -9,6 +9,7 @@ export default function Selector(props) {
     planetOptions,
     planetDropdowns,
     vehicleDropdowns,
+    vehicleOptions,
     handlePlanetToggle,
     handlePlanetSelection,
     handleVehicleSelection,
@@ -43,8 +44,8 @@ export default function Selector(props) {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [planetDropdowns, handlePlanetToggle]);
-
+  }, []);
+  console.log("vehicleOptions",vehicleOptions);
   return (
     <div className={styles.selector}>
       <div className={styles.outer_wrap} ref={selectorRef}>
@@ -64,6 +65,7 @@ export default function Selector(props) {
               dropdown={vehicleDropdowns[index]}
               index={index}
               handleVehicleSelection={handleVehicleSelection}
+              vehicleOptions={vehicleOptions}
             />
           </div>
         ))}
