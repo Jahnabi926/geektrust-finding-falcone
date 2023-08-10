@@ -179,17 +179,17 @@ export default function Home() {
   // };
 
   const handleVehicleSelection = (index, isChecked) => {
-    const updatedOptions = [...vehicleOptions]; 
+    const updatedOptions = [...vehicleOptions];  // [{count: }]
     const selectedOption = updatedOptions[index];
   
     if (isChecked) {
       // Update the used and total values for the selected option
       selectedOption.used += 1;
-      selectedOption.total -= 1;
+      // selectedOption.total -= 1;
     } else {
       // Restore the used and total values for the deselected option
       selectedOption.used -= 1;
-      selectedOption.total += 1;
+      // selectedOption.total += 1;
     }
   
     // Update the state with the modified options array
