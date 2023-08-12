@@ -7,8 +7,6 @@ import {
   getAssociatedVehicleDropdown,
   updateAssociatedVehicleDropdown,
   updatePlanetDropdowns,
-  reduceSelectedVehicleTotal,
-  calculateTimeTaken,
 } from "../../helpers/home.utils";
 import Header from "../../components/common/Header/Header";
 import Footer from "../../components/common/Footer/Footer";
@@ -132,51 +130,6 @@ export default function Home() {
     setPlanetNames(updatedPlanetNames);
   };
 
-  // const handleVehicleSelection = (index, value) => {
-  //   const updatedDropdowns = [...vehicleDropdowns];
-  //   const selectedVehicle = vehicleOptions.find(
-  //     (option) => option.name === value.name
-  //   );
-
-  //   updatedDropdowns[index].selected = selectedVehicle.name;
-  //   setVehicleDropdowns(updatedDropdowns);
-
-  //   const updatedVehicleOptions = reduceSelectedVehicleTotal(
-  //     vehicleOptions,
-  //     value
-  //   );
-  //   setVehicleOptions(updatedVehicleOptions);
-
-  //   // Retrieve the selected planet object from the associated planet dropdown
-  //   const associatedPlanetDropdown = planetDropdowns.find(
-  //     (dropdown) =>
-  //       dropdown.id === vehicleDropdowns[index].associatedPlanetDropdown
-  //   );
-  //   const selectedPlanet = associatedPlanetDropdown.selected;
-
-  //   // Calculate time taken for the selected planet and vehicle combination
-  //   const timeTaken = calculateTimeTaken(selectedPlanet, selectedVehicle);
-
-  //   // Update the timeTaken property in the corresponding planet dropdown
-  //   const updatedPlanetDropdowns = [...planetDropdowns];
-  //   const associatedPlanetIndex = planetDropdowns.findIndex(
-  //     (dropdown) => dropdown.id === associatedPlanetDropdown.id
-  //   );
-  //   updatedPlanetDropdowns[associatedPlanetIndex].timeTaken = timeTaken;
-  //   setPlanetDropdowns(updatedPlanetDropdowns);
-
-  //   // Update the total time taken
-  //   const totalTime = planetDropdowns.reduce(
-  //     (total, dropdown) => total + dropdown.timeTaken,
-  //     0
-  //   );
-  //   setTotalTimeTaken(totalTime);
-
-  //   const updatedvehicleNames = updatedDropdowns.map(
-  //     (dropdown) => dropdown.selected
-  //   );
-  //   setVehicleNames(updatedvehicleNames);
-  // };
 
   const handleVehicleSelection = (index, isChecked) => {
     const updatedOptions = [...vehicleOptions];  // [{count: }]
@@ -194,7 +147,6 @@ export default function Home() {
   
     // Update the state with the modified options array
     setVehicleOptions(updatedOptions);
-    debugger;
   };
 
     useEffect(() => {
@@ -228,8 +180,7 @@ export default function Home() {
             total: vehicle.total_no,
             maxDistance: vehicle.max_distance,
             speed: vehicle.speed,
-            used: 0,
-            selected: false
+            used: 0
           };
         });
         setVehicleOptions(vehiclesData);
