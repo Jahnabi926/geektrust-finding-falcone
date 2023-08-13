@@ -14,7 +14,7 @@ export default function VehicleDropdown({
     <>
       {dropdown.isOpen && (
         <ul className={styles.vehicles_dropdown_list}>
-          {options
+          {vehicleOptions
             .filter(
               (option) =>
                 option.total > 0 &&

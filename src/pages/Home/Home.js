@@ -129,22 +129,46 @@ export default function Home() {
   };
 
   const handleVehicleSelection = (index, optionIndex, optionName) => {
+    // const opt = vehicleOptions.map((vehicle) => {
+    //   if (vehicle.name === optionName) {
+    //     return {
+    //       ...vehicle,
+    //       used: vehicle.used + 1,
+    //     };
+    //   }
+    //   return {
+    //     ...vehicle,
+    //     used: vehicle.used - 1,
+    //   };
+    // });
+    // console.log("===????", opt);
+    // setVehicleOptions(opt);
+
     const updatedOptions = [...vehicleOptions];
     const selectedOption = updatedOptions[optionIndex];
     const updatedVehicleDropdowns = [...vehicleDropdowns];
     const associatedDropdown = updatedVehicleDropdowns[index];
     associatedDropdown.selected = optionName;
 
-    if (selectedOption.name === optionName) {
-      // Update the used and total values for the selected option
-      selectedOption.used += 1;
-    } else {
-      // Restore the used and total values for the deselected option
-      selectedOption.used -= 1;
-    }
-
+    const opt = vehicleOptions.map((vehicle) => {
+      if (vehicle.name === optionName) {
+        // Update the used and total values for the selected option
+        return {
+          ...vehicle,
+          used: vehicle.used + 1
+        }
+      } else {
+        // Restore the used and total values for the deselected option
+        return {
+          ...vehicle,
+          used: vehicle.used - 1
+        }
+      }
+    })
+ 
+    debugger
     // Update the state with the modified options array
-    setVehicleOptions(updatedOptions);
+    setVehicleOptions(opt);
     setVehicleDropdowns(updatedVehicleDropdowns);
   };
 
@@ -255,6 +279,8 @@ export default function Home() {
         setTokenErrorMessage(errorMessage);
       });
   };
+
+  console.log('render', vehicleOptions)
 
   return (
     <>
