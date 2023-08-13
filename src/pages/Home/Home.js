@@ -133,21 +133,19 @@ export default function Home() {
     const selectedOption = updatedOptions[optionIndex];
     const updatedVehicleDropdowns = [...vehicleDropdowns];
     const associatedDropdown = updatedVehicleDropdowns[index];
-
     associatedDropdown.selected = optionName;
 
     if (selectedOption.name === optionName) {
       // Update the used and total values for the selected option
       selectedOption.used += 1;
-      // selectedOption.total -= 1;
     } else {
       // Restore the used and total values for the deselected option
       selectedOption.used -= 1;
-      // selectedOption.total += 1;
     }
 
     // Update the state with the modified options array
     setVehicleOptions(updatedOptions);
+    setVehicleDropdowns(updatedVehicleDropdowns);
   };
 
   useEffect(() => {
