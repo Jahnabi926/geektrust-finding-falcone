@@ -7,10 +7,6 @@ export default function VehicleDropdown({
   handleVehicleSelection,
   vehicleOptions,
 }) {
-  // if (dropdown.selected) {
-  //   const isChecked = dropdown.selected;
-  //   return isChecked;
-  // }
   const [options, setOptions] = useState(vehicleOptions);
 
   console.log("vehicleOptions", vehicleOptions);
@@ -25,7 +21,6 @@ export default function VehicleDropdown({
                 option.maxDistance >= dropdown.selectedPlanet.distance
             )
             .map((option, optionIndex) => {
-              const isChecked = option.name === dropdown.selected;
               return (
                 <li key={`option-${index}-${optionIndex}`}>
                   <label>
@@ -33,9 +28,9 @@ export default function VehicleDropdown({
                       type="radio"
                       name={`vehicle-${index}`}
                       value={option.name}
-                      checked={isChecked}
+                      checked={option.name === dropdown.selected}
                       onChange={() =>
-                        handleVehicleSelection(optionIndex, !isChecked)
+                        handleVehicleSelection(index, optionIndex, option.name)
                       }
                       disabled={option.total === 0}
                     />

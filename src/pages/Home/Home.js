@@ -53,7 +53,6 @@ export default function Home() {
       id: "v1",
       associatedPlanetDropdown: "d1",
       selectedPlanet: null,
-      // filteredVehicleOptions: [],
     },
     {
       isOpen: false,
@@ -61,7 +60,6 @@ export default function Home() {
       id: "v2",
       associatedPlanetDropdown: "d2",
       selectedPlanet: null,
-      // filteredVehicleOptions: [],
     },
     {
       isOpen: false,
@@ -69,7 +67,6 @@ export default function Home() {
       id: "v3",
       associatedPlanetDropdown: "d3",
       selectedPlanet: null,
-      // filteredVehicleOptions: [],
     },
     {
       isOpen: false,
@@ -77,7 +74,6 @@ export default function Home() {
       id: "v4",
       associatedPlanetDropdown: "d4",
       selectedPlanet: null,
-      // filteredVehicleOptions: [],
     },
   ]);
   const [vehicleOptions, setVehicleOptions] = useState([]);
@@ -106,8 +102,10 @@ export default function Home() {
     setPlanetDropdowns(filteredDropdowns);
 
     // Calculate distance of the selected planet
-    const selectedPlanet = planetOptions.find((planet) => planet.name === value.name);
-    console.log("the selected planet for vehicle", selectedPlanet)
+    const selectedPlanet = planetOptions.find(
+      (planet) => planet.name === value.name
+    );
+    console.log("the selected planet for vehicle", selectedPlanet);
     const associatedVehicleDropdown = getAssociatedVehicleDropdown(
       index,
       vehicleDropdowns
@@ -130,12 +128,15 @@ export default function Home() {
     setPlanetNames(updatedPlanetNames);
   };
 
+  const handleVehicleSelection = (index, optionIndex, optionName) => {
+    const updatedOptions = [...vehicleOptions];
+    const selectedOption = updatedOptions[optionIndex];
+    const updatedVehicleDropdowns = [...vehicleDropdowns];
+    const associatedDropdown = updatedVehicleDropdowns[index];
 
-  const handleVehicleSelection = (index, isChecked) => {
-    const updatedOptions = [...vehicleOptions];  // [{count: }]
-    const selectedOption = updatedOptions[index];
-  
-    if (isChecked) {
+    associatedDropdown.selected = optionName;
+
+    if (selectedOption.name === optionName) {
       // Update the used and total values for the selected option
       selectedOption.used += 1;
       // selectedOption.total -= 1;
@@ -144,12 +145,12 @@ export default function Home() {
       selectedOption.used -= 1;
       // selectedOption.total += 1;
     }
-  
+
     // Update the state with the modified options array
     setVehicleOptions(updatedOptions);
   };
 
-    useEffect(() => {
+  useEffect(() => {
     // Fetch planet options
     const fetchPlanets = fetch("https://findfalcone.geektrust.com/planets")
       .then((response) => response.json())
@@ -180,7 +181,7 @@ export default function Home() {
             total: vehicle.total_no,
             maxDistance: vehicle.max_distance,
             speed: vehicle.speed,
-            used: 0
+            used: 0,
           };
         });
         setVehicleOptions(vehiclesData);

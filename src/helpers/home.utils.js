@@ -57,13 +57,6 @@ export const getAssociatedVehicleDropdown = (index, vehicleDropdowns) =>
     (dropdown) => dropdown.associatedPlanetDropdown === `d${index + 1}`
   );
 
-// Utility function to filter vehicle options based on selected planet's distance
-// const filterVehicleOptions = (selectedPlanet, vehicleOptions) =>
-//   vehicleOptions.filter(
-//     (option) =>
-//       option.total > 0 && option.maxDistance >= selectedPlanet.distance
-//   );
-
 // Utility function to update the associated vehicle dropdown
 export const updateAssociatedVehicleDropdown = (
   selectedPlanet,
@@ -80,15 +73,6 @@ export const updateAssociatedVehicleDropdown = (
     selectedPlanet: selectedPlanet,
   };
 
-  // Filter the vehicle options based on the selected planet's distance
-  // const filteredVehicleOptions = filterVehicleOptions(
-  //   selectedPlanet,
-  //   vehicleOptions
-  // );
-
-  // Update the filtered options for the associated vehicle dropdown
-  // updatedVehicleDropdown.filteredVehicleOptions = filteredVehicleOptions;
-
   // Find the index of the associated vehicle dropdown in the updated list
   const associatedDropdownIndex = vehicleDropdowns.findIndex(
     (dropdown) => dropdown.id === associatedVehicleDropdown.id
@@ -103,19 +87,6 @@ export const updateAssociatedVehicleDropdown = (
 
   return updatedVehicleDropdowns;
 };
-
-// Helper function to reduce the total number of the selected vehicle
-// export const reduceSelectedVehicleTotal = (vehicleOptions, value) => {
-//   return vehicleOptions.map((option) => {
-//     if (option.name === value.name) {
-//       return {
-//         ...option,
-//         total: option.total - 1,
-//       };
-//     }
-//     return option;
-//   });
-// };
 
 export const handlePlanetToggle = (
   index,
