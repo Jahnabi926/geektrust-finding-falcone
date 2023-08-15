@@ -45,7 +45,7 @@ export default function Selector(props) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  console.log("vehicleOptions",vehicleOptions);
+
   return (
     <div className={styles.selector}>
       <div className={styles.outer_wrap} ref={selectorRef}>

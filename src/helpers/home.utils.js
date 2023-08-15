@@ -1,14 +1,12 @@
 // Utility function to update the planet dropdowns
 export const updatePlanetDropdowns = (
-  updatedDropdowns,
+  planetDropdowns,
   index,
   value,
   planetOptions
 ) => {
-  updatedDropdowns[index].selected = value;
-  updatedDropdowns[index].isOpen = false;
-  console.log("value", value);
-  console.log("planetOptions", planetOptions);
+  planetDropdowns[index].selectedPlanet = value;
+  planetDropdowns[index].isOpen = false;
 
   const updatedPlanetOptions = planetOptions.map((planet) => {
     // remove if a selection was made for a same dropdown
@@ -32,30 +30,23 @@ export const updatePlanetDropdowns = (
     return planet;
   });
 
-  console.log("updatedPlanetOptions", updatedPlanetOptions);
-  const filteredDropdowns = updatedDropdowns.map((dropdown, dropdownIndex) => {
+  const filteredDropdowns = planetDropdowns.map((dropdown, dropdownIndex) => {
     if (dropdownIndex !== index) {
-      const filteredOptions = updatedPlanetOptions;
+      const filteredPlanetOptions = updatedPlanetOptions;
       return {
         ...dropdown,
-        filteredOptions: filteredOptions,
+        filteredPlanetOptions: filteredPlanetOptions,
       };
     }
     return {
       ...dropdown,
       selected: value,
-      filteredOptions: updatedPlanetOptions,
+      filteredPlanetOptions: updatedPlanetOptions,
     };
   });
 
   return { filteredDropdowns, updatedPlanetOptions };
 };
-
-// Utility function to get the associated vehicle dropdown
-export const getAssociatedVehicleDropdown = (index, vehicleDropdowns) =>
-  vehicleDropdowns.find(
-    (dropdown) => dropdown.associatedPlanetDropdown === `d${index + 1}`
-  );
 
 // Utility function to update the associated vehicle dropdown
 export const updateAssociatedVehicleDropdown = (

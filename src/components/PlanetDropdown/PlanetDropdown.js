@@ -5,7 +5,7 @@ import caretIcon from "../../images/caret-icon.jpg";
 import iconStyle from "../../images/caretIcon.module.css";
 import { useState } from "react";
 
-const filteredOptions = (planetOptions, inputValue, index) =>
+const filteredPlanetOptions = (planetOptions, inputValue, index) =>
   planetOptions
     .filter(
       (option) =>
@@ -29,8 +29,7 @@ export default function PlanetDropdown({
     setInputValue(event.target.value);
   };
 
-  const options = filteredOptions(planetOptions, inputValue, index);
-  console.log("xxx", index);
+  const options = filteredPlanetOptions(planetOptions, inputValue, index);
 
   return (
     <>
@@ -49,7 +48,7 @@ export default function PlanetDropdown({
           onClick={() => handlePlanetToggle(index)}
           className={classes.dropdown_button}
         >
-          {dropdown.selected ? dropdown.selected.name : "Select an option"}
+          {dropdown.selectedPlanet ? dropdown.selectedPlanet.name : "Select an option"}
           <img className={iconStyle.caret} src={caretIcon} alt="Caret Icon" />
         </Button>
       )}

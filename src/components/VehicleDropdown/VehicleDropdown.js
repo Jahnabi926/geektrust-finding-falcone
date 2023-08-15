@@ -7,7 +7,6 @@ export default function VehicleDropdown({
   handleVehicleSelection,
   vehicleOptions,
 }) {
-  const [options, setOptions] = useState(vehicleOptions);
 
   console.log("vehicleOptions", vehicleOptions);
   return (
@@ -21,6 +20,7 @@ export default function VehicleDropdown({
                 option.maxDistance >= dropdown.selectedPlanet.distance
             )
             .map((option, optionIndex) => {
+              const remainingCount = option.total - option.used;
               return (
                 <li key={`option-${index}-${optionIndex}`}>
                   <label>
@@ -28,14 +28,14 @@ export default function VehicleDropdown({
                       type="radio"
                       name={`vehicle-${index}`}
                       value={option.name}
-                      checked={option.name === dropdown.selected}
+                      checked={option.name === dropdown.selectedVehicle}
                       onChange={() =>
-                        handleVehicleSelection(index, optionIndex, option.name)
+                        handleVehicleSelection(index, option.name)
                       }
-                      disabled={option.total === 0}
+                      disabled={remainingCount === 0}
                     />
                     <span>{option.name}</span>
-                    <span>({option.total - option.used})</span>
+                    <span>({remainingCount})</span>
                   </label>
                 </li>
               );
