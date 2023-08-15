@@ -84,6 +84,7 @@ export const handlePlanetToggle = (
   planetDropdowns,
   setPlanetDropdowns
 ) => {
+  // use a map instead of spreading
   const updatedDropdowns = [...planetDropdowns];
   updatedDropdowns[index].isOpen = !updatedDropdowns[index].isOpen;
   setPlanetDropdowns(updatedDropdowns);

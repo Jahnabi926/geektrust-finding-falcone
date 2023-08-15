@@ -132,20 +132,19 @@ export default function Home() {
 
     setVehicleDropdowns(vehicleDropdowns);
 
-    console.log("Selected Planet:", selectedPlanet);
-    console.log("Selected Vehicle:", selectedVehicle);
+    // Calculate the time taken by each vehicle
 
     const timeTaken = calculateTimeTaken(selectedPlanet, selectedVehicle);
 
-    console.log("Time Taken:", timeTaken);
-
-    const updatedPlanetDropdowns = planetDropdowns.map((dropdown) =>
-      dropdown.id === associatedVehicleDropdown.associatedPlanetDropdown
-        ? { ...dropdown, timeTaken }
-        : dropdown
+    const associatedPlanetDropdown = planetDropdowns.find(
+      (dropdown) =>
+        dropdown.id === vehicleDropdowns[index].associatedPlanetDropdown
     );
-
-    setPlanetDropdowns(updatedPlanetDropdowns);
+    const associatedPlanetIndex = planetDropdowns.findIndex(
+      (dropdown) => dropdown.id === associatedPlanetDropdown.id
+    );
+    planetDropdowns[associatedPlanetIndex].timeTaken = timeTaken;
+    setPlanetDropdowns(planetDropdowns);
 
     // Calculate the total time taken
     const updatedTotalTimeTaken = planetDropdowns.reduce(
@@ -156,26 +155,7 @@ export default function Home() {
     );
 
     setTotalTimeTaken(updatedTotalTimeTaken);
-    console.log("Total Time Taken:", updatedTotalTimeTaken);
 
-    // const opt = vehicleOptions.map((vehicle) => {
-    //   if (vehicle.name === optionName) {
-    //     // Update the used and total values for the selected option
-    //     return {
-    //       ...vehicle,
-    //       used: vehicle.used + 1,
-    //     };
-    //   } else {
-    //     // Restore the used and total values for the deselected option
-    //     return {
-    //       ...vehicle,
-    //       used: vehicle.used - 1,
-    //     };
-    //   }
-    // });
-    // setVehicleOptions(opt);
-
-    // eslint-disable-next-line array-callback-return
     const updatedVehicleOptions = vehicleOptions.map((vehicle) => {
       const isSelected = vehicle.name === optionName;
 
@@ -183,17 +163,17 @@ export default function Home() {
         return vehicle;
       }
 
-      if (isSelected && (vehicle.used === 0 || vehicle.used > 0)) {
+      if (isSelected && vehicle.used >= 0) {
         return { ...vehicle, used: vehicle.used + 1 };
       }
+      return vehicle;
     });
     setVehicleOptions(updatedVehicleOptions);
 
     const updatedVehicleNames = vehicleDropdowns.map(
-      (dropdown) => dropdown.selectedVehicle?.name
+      (dropdown) => dropdown.selectedVehicle
     );
     setVehicleNames(updatedVehicleNames);
-    console.log("Vehicle names", updatedVehicleNames);
   };
 
   useEffect(() => {
