@@ -30,8 +30,8 @@ describe("PlanetDropdown Component", () => {
   ];
 
   const planetDropdowns = [
-    { selected: null, isOpen: false }, // Corrected: Set initial isOpen to false
-    { selected: null, isOpen: false }, // Corrected: Set initial isOpen to false
+    { selectedPlanet: null, isOpen: false }, // Corrected: Set initial isOpen to false
+    { selectedPlanet: null, isOpen: false }, // Corrected: Set initial isOpen to false
   ];
 
   const handlePlanetToggle = jest.fn();

@@ -12,7 +12,7 @@ export const updatePlanetDropdowns = (
     // remove if a selection was made for a same dropdown
     if (
       planet.selectedByDropDown &&
-      planet.selectedByDropDown === `d${index}`
+      planet.selectedByDropDown === `d${index + 1}`
     ) {
       return {
         ...planet,
@@ -23,7 +23,7 @@ export const updatePlanetDropdowns = (
     if (planet.name === value.name) {
       return {
         ...planet,
-        selectedByDropDown: `d${index}`,
+        selectedByDropDown: `d${index + 1}`,
       };
     }
 
@@ -40,7 +40,7 @@ export const updatePlanetDropdowns = (
     }
     return {
       ...dropdown,
-      selected: value,
+      selectedPlanet: value,
       filteredPlanetOptions: updatedPlanetOptions,
     };
   });
@@ -84,10 +84,18 @@ export const handlePlanetToggle = (
   planetDropdowns,
   setPlanetDropdowns
 ) => {
-  // use a map instead of spreading
-  const updatedDropdowns = [...planetDropdowns];
-  updatedDropdowns[index].isOpen = !updatedDropdowns[index].isOpen;
+  console.log(`handlePlanetToggle called for index ${index}`);
+
+  const updatedDropdowns = planetDropdowns.map((dropdown, i) => {
+    if (i === index) {
+      return { ...dropdown, isOpen: !dropdown.isOpen };
+    }
+    return dropdown;
+  });
+  console.log("Updated dropdowns:", updatedDropdowns);
+
   setPlanetDropdowns(updatedDropdowns);
+  console.log("New planetDropdowns state:", updatedDropdowns);
 };
 
 export const calculateTimeTaken = (planet, vehicle) => {

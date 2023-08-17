@@ -90,6 +90,10 @@ export default function Home() {
   };
 
   const handlePlanetSelection = (index, value) => {
+    console.log(
+      `handlePlanetSelection called for index ${index}, selectedPlanet: ${value.name}`
+    );
+
     const { filteredDropdowns, updatedPlanetOptions } = updatePlanetDropdowns(
       planetDropdowns,
       index,
@@ -123,6 +127,10 @@ export default function Home() {
   };
 
   const handleVehicleSelection = (index, optionName) => {
+    console.log(
+      `handleVehicleSelection called for index ${index}, selectedVehicle: ${optionName}`
+    );
+
     const associatedVehicleDropdown = vehicleDropdowns[index];
     associatedVehicleDropdown.selectedVehicle = optionName;
     const selectedPlanet = associatedVehicleDropdown.selectedPlanet;
@@ -283,6 +291,7 @@ export default function Home() {
         setTokenErrorMessage(errorMessage);
       });
   };
+  console.log("planetDropdowns prop:", planetDropdowns);
 
   return (
     <>

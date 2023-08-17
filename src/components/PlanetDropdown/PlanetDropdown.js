@@ -9,7 +9,7 @@ const filteredPlanetOptions = (planetOptions, inputValue, index) =>
   planetOptions
     .filter(
       (option) =>
-        option.selectedByDropDown === `d${index}` ||
+        option.selectedByDropDown === `d${index + 1}` ||
         option.selectedByDropDown === undefined
     )
     .filter((option) =>
@@ -22,11 +22,15 @@ export default function PlanetDropdown({
   planetOptions,
   handlePlanetToggle,
   handlePlanetSelection,
+  userInput,
+  handleInput,
 }) {
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState(userInput);
 
   const handleInputChange = (event) => {
-    setInputValue(event.target.value);
+    const newValue = event.target.value;
+    setInputValue(newValue);
+    handleInput(newValue);
   };
 
   const options = filteredPlanetOptions(planetOptions, inputValue, index);
@@ -48,7 +52,9 @@ export default function PlanetDropdown({
           onClick={() => handlePlanetToggle(index)}
           className={classes.dropdown_button}
         >
-          {dropdown.selectedPlanet ? dropdown.selectedPlanet.name : "Select an option"}
+          {dropdown.selectedPlanet
+            ? dropdown.selectedPlanet.name
+            : "Select an option"}
           <img className={iconStyle.caret} src={caretIcon} alt="Caret Icon" />
         </Button>
       )}
