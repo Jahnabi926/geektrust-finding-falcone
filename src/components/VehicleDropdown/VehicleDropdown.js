@@ -27,7 +27,7 @@ export default function VehicleDropdown({
                       type="radio"
                       name={`vehicle-${index}`}
                       value={option.name}
-                      checked={option.name === dropdown.selectedVehicle}
+                      checked={option.name === dropdown.currentSelectedVehicle}
                       onChange={() =>
                         handleVehicleSelection(index, option.name)
                       }
