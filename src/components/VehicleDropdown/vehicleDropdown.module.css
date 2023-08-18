@@ -6,3 +6,9 @@
 .vehicles_dropdown_list input {
   cursor: pointer;
 }
+.disabled-label {
+  color: gray;
+}
+.unclickable-label {
+  cursor: not-allowed;
+}
