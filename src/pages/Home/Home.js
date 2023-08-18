@@ -50,6 +50,7 @@ export default function Home() {
     {
       isOpen: false,
       selectedVehicle: null,
+      previousSelectedVehicle: null,
       id: "v1",
       associatedPlanetDropdown: "d1",
       selectedPlanet: null,
@@ -57,6 +58,7 @@ export default function Home() {
     {
       isOpen: false,
       selectedVehicle: null,
+      previousSelectedVehicle: null,
       id: "v2",
       associatedPlanetDropdown: "d2",
       selectedPlanet: null,
@@ -64,6 +66,7 @@ export default function Home() {
     {
       isOpen: false,
       selectedVehicle: null,
+      previousSelectedVehicle: null,
       id: "v3",
       associatedPlanetDropdown: "d3",
       selectedPlanet: null,
@@ -71,6 +74,7 @@ export default function Home() {
     {
       isOpen: false,
       selectedVehicle: null,
+      previousSelectedVehicle: null,
       id: "v4",
       associatedPlanetDropdown: "d4",
       selectedPlanet: null,
@@ -132,15 +136,35 @@ export default function Home() {
     );
 
     const associatedVehicleDropdown = vehicleDropdowns[index];
+
+    // Store the current selected vehicle
+    const previousSelectedVehicle = associatedVehicleDropdown.selectedVehicle;
+
+    // Update the current selected vehicle
+
     associatedVehicleDropdown.selectedVehicle = optionName;
-    const selectedPlanet = associatedVehicleDropdown.selectedPlanet;
+
+    // Update the state with the modified vehicleDropdowns array
+
+    setVehicleDropdowns([...vehicleDropdowns]);
+
+    // Update the used count for the previous and current selections
+
+    if (previousSelectedVehicle !== null) {
+      const prevSelectedVehicle = vehicleOptions.find(
+        (vehicle) => vehicle.name === previousSelectedVehicle
+      );
+      prevSelectedVehicle.used -= 1;
+    }
+
     const selectedVehicle = vehicleOptions.find(
       (vehicle) => vehicle.name === optionName
     );
-
-    setVehicleDropdowns(vehicleDropdowns);
+    selectedVehicle.used += 1;
 
     // Calculate the time taken by each vehicle
+
+    const selectedPlanet = associatedVehicleDropdown.selectedPlanet;
 
     const timeTaken = calculateTimeTaken(selectedPlanet, selectedVehicle);
 
@@ -148,13 +172,15 @@ export default function Home() {
       (dropdown) =>
         dropdown.id === vehicleDropdowns[index].associatedPlanetDropdown
     );
+
     const associatedPlanetIndex = planetDropdowns.findIndex(
       (dropdown) => dropdown.id === associatedPlanetDropdown.id
     );
     planetDropdowns[associatedPlanetIndex].timeTaken = timeTaken;
-    setPlanetDropdowns(planetDropdowns);
+    setPlanetDropdowns([...planetDropdowns]);
 
     // Calculate the total time taken
+
     const updatedTotalTimeTaken = planetDropdowns.reduce(
       (totalTime, dropdown) => {
         return totalTime + dropdown.timeTaken;
@@ -163,20 +189,6 @@ export default function Home() {
     );
 
     setTotalTimeTaken(updatedTotalTimeTaken);
-
-    const updatedVehicleOptions = vehicleOptions.map((vehicle) => {
-      const isSelected = vehicle.name === optionName;
-
-      if (!isSelected) {
-        return vehicle;
-      }
-
-      if (isSelected && vehicle.used >= 0) {
-        return { ...vehicle, used: vehicle.used + 1 };
-      }
-      return vehicle;
-    });
-    setVehicleOptions(updatedVehicleOptions);
 
     const updatedVehicleNames = vehicleDropdowns.map(
       (dropdown) => dropdown.selectedVehicle
