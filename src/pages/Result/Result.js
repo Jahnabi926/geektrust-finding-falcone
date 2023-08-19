@@ -33,9 +33,7 @@ const Result = () => {
           <p>Time Taken: {totalTimeTaken}</p>
           <p>
             Planet found:{" "}
-            {findResult === "AI Falcone not found"
-              ? "None"
-              : foundPlanet}
+            {findResult === "AI Falcone not found" ? "None" : foundPlanet}
           </p>
           <Link to="/">
             <Button className={classes.button_result}>Start Again</Button>

@@ -6,7 +6,6 @@ export default function VehicleDropdown({
   handleVehicleSelection,
   vehicleOptions,
 }) {
-  console.log("vehicleOptions", vehicleOptions);
   return (
     <>
       {dropdown.isOpen && (

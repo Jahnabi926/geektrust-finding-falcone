@@ -94,10 +94,6 @@ export default function Home() {
   };
 
   const handlePlanetSelection = (index, value) => {
-    console.log(
-      `handlePlanetSelection called for index ${index}, selectedPlanet: ${value.name}`
-    );
-
     const { filteredDropdowns, updatedPlanetOptions } = updatePlanetDropdowns(
       planetDropdowns,
       index,
@@ -131,25 +127,22 @@ export default function Home() {
   };
 
   const handleVehicleSelection = (index, optionName) => {
-    console.log(
-      `handleVehicleSelection called for index ${index}, currentSelectedVehicle: ${optionName}`
-    );
-
     const associatedVehicleDropdown = vehicleDropdowns[index];
 
-    // Store the current selected vehicle
-    const previousSelectedVehicle = associatedVehicleDropdown.currentSelectedVehicle;
+    // Stores the current selected vehicle
+    const previousSelectedVehicle =
+      associatedVehicleDropdown.currentSelectedVehicle;
     associatedVehicleDropdown.previousSelectedVehicle = previousSelectedVehicle;
 
-    // Update the current selected vehicle
+    // Updates the current selected vehicle
 
     associatedVehicleDropdown.currentSelectedVehicle = optionName;
 
-    // Update the state with the modified vehicleDropdowns array
+    // Updates the state with the modified vehicleDropdowns array
 
     setVehicleDropdowns([...vehicleDropdowns]);
 
-    // Update the used count for the previous and current selections
+    // Updates the used count for the previous and current selections
 
     if (previousSelectedVehicle !== null) {
       const prevSelectedVehicle = vehicleOptions.find(
@@ -162,13 +155,15 @@ export default function Home() {
       (vehicle) => vehicle.name === optionName
     );
     currentSelectedVehicle.used += 1;
-    console.log("Updated vehicleDropdowns array:", vehicleDropdowns);
 
-    // Calculate the time taken by each vehicle
+    // Calculates the time taken by each vehicle
 
     const selectedPlanet = associatedVehicleDropdown.selectedPlanet;
 
-    const timeTaken = calculateTimeTaken(selectedPlanet, currentSelectedVehicle);
+    const timeTaken = calculateTimeTaken(
+      selectedPlanet,
+      currentSelectedVehicle
+    );
 
     const associatedPlanetDropdown = planetDropdowns.find(
       (dropdown) =>
@@ -181,7 +176,7 @@ export default function Home() {
     planetDropdowns[associatedPlanetIndex].timeTaken = timeTaken;
     setPlanetDropdowns([...planetDropdowns]);
 
-    // Calculate the total time taken
+    // Calculates the total time taken
 
     const updatedTotalTimeTaken = planetDropdowns.reduce(
       (totalTime, dropdown) => {
@@ -199,7 +194,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    // Fetch planet options
+    // Fetches planet options
     const fetchPlanets = fetch("https://findfalcone.geektrust.com/planets")
       .then((response) => response.json())
       .then((data) => {
@@ -219,7 +214,7 @@ export default function Home() {
         );
       });
 
-    // Fetch vehicle options
+    // Fetches vehicle options
     const fetchVehicles = fetch("https://findfalcone.geektrust.com/vehicles")
       .then((response) => response.json())
       .then((data) => {
@@ -243,15 +238,15 @@ export default function Home() {
 
     Promise.all([fetchPlanets, fetchVehicles])
       .then(() => {
-        // Both API calls are completed, so set loading to false
+        // Both API calls are completed, so sets loading to false
 
         setLoading(false);
       })
       .catch((error) => {
-        // Handle errors from either of the API calls
+        // Handles errors from either of the API calls
 
         console.log("Error fetching data:", error);
-        setLoading(false); // In case of an error, still set loading to false
+        setLoading(false); // In case of an error, still sets loading to false
       });
   }, []);
 
@@ -289,7 +284,7 @@ export default function Home() {
 
         const result =
           data.status === "success" ? data.planet_name : "AI Falcone not found";
-        // Redirect to the Result component with the result in the URL
+        // Redirects to the Result component with the result in the URL
         navigate("/result", {
           state: {
             totalTimeTaken,
@@ -305,7 +300,6 @@ export default function Home() {
         setTokenErrorMessage(errorMessage);
       });
   };
-  console.log("planetDropdowns prop:", planetDropdowns);
 
   return (
     <>

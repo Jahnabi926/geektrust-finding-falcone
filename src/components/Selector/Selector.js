@@ -20,7 +20,6 @@ export default function Selector(props) {
 
   // Function to handle user input change for a specific planet dropdown
   const handleInput = (index, value) => {
-    console.log(`handleInput called for index ${index}, value: ${value}`);
     const newInputs = [...userInputs];
     newInputs[index] = value;
     setUserInputs(newInputs);
@@ -30,12 +29,8 @@ export default function Selector(props) {
   const selectorRef = useRef(null);
 
   useEffect(() => {
-    console.log("Adding event listener");
     const handleClickOutside = (event) => {
-      console.log("Click event occurred");
-
       if (selectorRef.current && !selectorRef.current.contains(event.target)) {
-        console.log("Click outside detected");
         // Close all open dropdowns when clicking outside
         planetDropdowns.forEach((dropdown, index) => {
           if (dropdown.isOpen) {
@@ -48,11 +43,9 @@ export default function Selector(props) {
     document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
-      console.log("Removing event listener");
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [handlePlanetToggle]);
-  console.log("userInputs:", userInputs);
 
   return (
     <div className={styles.selector}>

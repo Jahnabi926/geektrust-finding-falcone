@@ -4,7 +4,7 @@
   cursor: pointer;
   border-radius: 5px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 4px 0 8px rgba(0, 0, 0, 0.2);
-  background-color: #FFFDD0;
+  background-color: #fffdd0;
 }
 
 .planets_dropdown_list li {
@@ -17,6 +17,6 @@
   font-size: 13px;
 }
 .input {
-  background-color: #FFFDD0;
+  background-color: #fffdd0;
   height: 20px;
 }

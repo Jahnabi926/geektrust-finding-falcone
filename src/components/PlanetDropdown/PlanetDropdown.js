@@ -55,7 +55,12 @@ export default function PlanetDropdown({
           {dropdown.selectedPlanet
             ? dropdown.selectedPlanet.name
             : "Select an option"}
-          <img className={iconStyle.caret} src={caretIcon} alt="Caret Icon" />
+          <img
+            className={iconStyle.caret}
+            src={caretIcon}
+            alt="Caret Icon"
+            preload="auto"
+          />
         </Button>
       )}
       {dropdown.isOpen && (
