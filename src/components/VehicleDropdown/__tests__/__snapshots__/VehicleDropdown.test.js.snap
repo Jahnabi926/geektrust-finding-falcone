@@ -1,0 +1,96 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`VehicleDropdown component matches snapshot 1`] = `
+<ul
+  className="vehicles_dropdown_list"
+>
+  <li>
+    <label
+      className=""
+    >
+      <input
+        checked={false}
+        disabled={false}
+        name="vehicle-0"
+        onChange={[Function]}
+        type="radio"
+        value="Space pod"
+      />
+      <span>
+        Space pod
+      </span>
+      <span>
+        (
+        NaN
+        )
+      </span>
+    </label>
+  </li>
+  <li>
+    <label
+      className=""
+    >
+      <input
+        checked={false}
+        disabled={false}
+        name="vehicle-0"
+        onChange={[Function]}
+        type="radio"
+        value="Space rocket"
+      />
+      <span>
+        Space rocket
+      </span>
+      <span>
+        (
+        NaN
+        )
+      </span>
+    </label>
+  </li>
+  <li>
+    <label
+      className=""
+    >
+      <input
+        checked={false}
+        disabled={false}
+        name="vehicle-0"
+        onChange={[Function]}
+        type="radio"
+        value="Space shuttle"
+      />
+      <span>
+        Space shuttle
+      </span>
+      <span>
+        (
+        NaN
+        )
+      </span>
+    </label>
+  </li>
+  <li>
+    <label
+      className=""
+    >
+      <input
+        checked={false}
+        disabled={false}
+        name="vehicle-0"
+        onChange={[Function]}
+        type="radio"
+        value="Space ship"
+      />
+      <span>
+        Space ship
+      </span>
+      <span>
+        (
+        NaN
+        )
+      </span>
+    </label>
+  </li>
+</ul>
+`;

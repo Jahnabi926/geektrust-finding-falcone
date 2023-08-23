@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PlanetDropdown Component matches snapshot 1`] = `
+Array [
+  <p>
+    Destination 
+    1
+  </p>,
+  <input
+    autoFocus={true}
+    className="input"
+    onChange={[Function]}
+    placeholder="Start typing to search..."
+    type="text"
+    value=""
+  />,
+  <ul
+    className="planets_dropdown_list"
+  >
+    <li
+      onClick={[Function]}
+    >
+      Donlon
+    </li>
+    <li
+      onClick={[Function]}
+    >
+      Enchai
+    </li>
+    <li
+      onClick={[Function]}
+    >
+      Jebing
+    </li>
+    <li
+      onClick={[Function]}
+    >
+      Sapir
+    </li>
+    <li
+      onClick={[Function]}
+    >
+      Lerbin
+    </li>
+    <li
+      onClick={[Function]}
+    >
+      Pingasor
+    </li>
+  </ul>,
+]
+`;

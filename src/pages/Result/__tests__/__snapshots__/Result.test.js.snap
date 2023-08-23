@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Result Component matches snapshot 1`] = `
+Array [
+  <header>
+    <div
+      className="header_links"
+      data-testid="home-link-container"
+    >
+      <a
+        href="/"
+      >
+        GeekTrust Home
+      </a>
+      <span
+        className="header_space"
+      >
+        |
+      </span>
+      <span
+        onClick={[Function]}
+      >
+        Reset
+      </span>
+    </div>
+    <h1
+      className="title"
+    >
+      Finding Falcone !
+    </h1>
+  </header>,
+  <div
+    className="App"
+  >
+    <div
+      className="result"
+    >
+      <p>
+        Success! Congratulations on Finding Falcone. King Shan is mighty pleased.
+      </p>
+      <p>
+        Time Taken: 
+      </p>
+      <p>
+        Planet found:
+         
+      </p>
+      <a
+        href="/"
+        onClick={[Function]}
+      >
+        <button
+          className="button_result"
+        >
+          Start Again
+        </button>
+      </a>
+    </div>
+  </div>,
+  <footer
+    className="footer"
+  >
+    <p>
+      Coding problem - www.geektrust.in/finding-falcone
+    </p>
+  </footer>,
+]
+`;

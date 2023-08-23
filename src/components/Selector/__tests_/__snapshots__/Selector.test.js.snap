@@ -1,0 +1,92 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Selector Component matches snapshot 1`] = `
+<div
+  className="selector"
+>
+  <div
+    className="outer_wrap"
+  >
+    <div
+      className="wrap"
+    >
+      <p>
+        Destination 
+        1
+      </p>
+      <button
+        className="dropdown_button"
+        onClick={[Function]}
+      >
+        Select an option
+        <img
+          alt="Caret Icon"
+          className="caret"
+          preload="auto"
+          src="caret-icon.jpg"
+        />
+      </button>
+    </div>
+    <div
+      className="wrap"
+    >
+      <p>
+        Destination 
+        2
+      </p>
+      <button
+        className="dropdown_button"
+        onClick={[Function]}
+      >
+        Select an option
+        <img
+          alt="Caret Icon"
+          className="caret"
+          preload="auto"
+          src="caret-icon.jpg"
+        />
+      </button>
+    </div>
+    <div
+      className="wrap"
+    >
+      <p>
+        Destination 
+        3
+      </p>
+      <button
+        className="dropdown_button"
+        onClick={[Function]}
+      >
+        Select an option
+        <img
+          alt="Caret Icon"
+          className="caret"
+          preload="auto"
+          src="caret-icon.jpg"
+        />
+      </button>
+    </div>
+    <div
+      className="wrap"
+    >
+      <p>
+        Destination 
+        4
+      </p>
+      <button
+        className="dropdown_button"
+        onClick={[Function]}
+      >
+        Select an option
+        <img
+          alt="Caret Icon"
+          className="caret"
+          preload="auto"
+          src="caret-icon.jpg"
+        />
+      </button>
+    </div>
+  </div>
+</div>
+`;
