@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Home Component matches snapshot 1`] = `
+<div>
+  <header>
+    <div
+      class="header_links"
+      data-testid="home-link-container"
+    >
+      <a
+        href="/"
+      >
+        GeekTrust Home
+      </a>
+      <span
+        class="header_space"
+      >
+        |
+      </span>
+      <span>
+        Reset
+      </span>
+    </div>
+    <h1
+      class="title"
+    >
+      Finding Falcone !
+    </h1>
+  </header>
+  <div
+    class="App"
+  >
+    <div>
+      <h4>
+        Select planets you want to search in: 
+      </h4>
+      <div
+        class="spinner"
+      />
+      <button
+        class="button_home"
+        disabled=""
+      >
+        Find Falcone!
+      </button>
+    </div>
+  </div>
+  <footer
+    class="footer"
+  >
+    <p>
+      Coding problem - www.geektrust.in/finding-falcone
+    </p>
+  </footer>
+</div>
+`;
