@@ -1,13 +1,24 @@
+/* Mobile-first styles */
 .button_home {
   cursor: pointer;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 4px 0 8px rgba(0, 0, 0, 0.2);
   border: none;
   padding: 8px;
   background-color: #b6eb44;
-  position: fixed;
-  bottom: 4rem;
-  transform: translateX(-50%);
+  position: relative; /* Make position relative to the content */
+  margin: 5rem auto; /* Center horizontally with margin */
 }
+
+/* Responsive styles for screens wider than 600px */
+@media (min-width: 600px) {
+  .button_home {
+    position: fixed;
+    bottom: 4rem;
+    left: 50%; /* Center horizontally using fixed positioning */
+    transform: translateX(-50%);
+  }
+}
+
 .button_home[disabled] {
   background-color: #f5f0f0;
 }

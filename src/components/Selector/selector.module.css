@@ -1,8 +1,24 @@
+/* Mobile-first styles */
 .selector {
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-direction: column; /* Stack items vertically on small screens */
 }
+
 .outer_wrap {
   display: flex;
-  gap: 20px;
+  flex-direction: column;
+}
+
+/* Responsive styles for screens wider than 600px */
+@media (min-width: 600px) {
+  .selector {
+    flex-direction: row; /* Align items horizontally on larger screens */
+  }
+
+  .outer_wrap {
+    flex-direction: row;
+    gap: 20px;
+  }
 }
